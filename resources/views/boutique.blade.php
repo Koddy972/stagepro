@@ -26,6 +26,11 @@
             box-sizing: border-box;
         }
         
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 120px; /* Compense la hauteur du header fixe */
+        }
+        
         body {
             background-color: var(--light-gray);
             color: var(--text-gray);
@@ -116,15 +121,15 @@
         }
         
         .logo-icon {
-            width: 50px;
-            height: 50px;
-            /* background: var(--dark-blue); */
+            width: 80px; /* Agrandissement du logo */
+            height: 80px; /* Agrandissement du logo */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--gold);
-            font-size: 1.5rem;
+            font-size: 2.5rem;
+            background: transparent; /* Fond transparent pour le nouveau logo */
         }
         
         .logo-icon img {
@@ -140,14 +145,14 @@
         
         .logo-main {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+            font-size: 2.2rem; /* Agrandissement du texte */
             font-weight: 700;
             color: var(--dark-blue);
             line-height: 1.1;
         }
         
         .logo-subtitle {
-            font-size: 0.75rem;
+            font-size: 0.95rem; /* Agrandissement du texte */
             color: var(--gold);
             font-weight: 500;
             letter-spacing: 1px;
@@ -186,6 +191,14 @@
         }
         
         nav ul li a:hover:after {
+            width: 100%;
+        }
+        
+        nav ul li a.active {
+            color: var(--gold);
+        }
+        
+        nav ul li a.active:after {
             width: 100%;
         }
         
@@ -733,7 +746,7 @@
             <div class="header-content">
                 <a href="#" class="logo">
                     <div class="logo-icon">
-                        <img src="./logo.png" alt="Logo Caraïbes Voiles">
+                        <img src="{{ asset('images/logo-caraibes-voiles.png') }}" alt="Logo Caraïbes Voiles">
                     </div>
                     <div class="logo-text">
                         <div class="logo-main">CARAÏBES VOILES</div>
@@ -1031,6 +1044,65 @@
         // Script pour le menu mobile
         document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
             document.getElementById('main-nav').classList.toggle('active');
+        });
+
+        // Navigation fluide vers les sections
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélectionner tous les liens de navigation
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Récupérer l'ID de la section cible
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        // Fermer le menu mobile si ouvert
+                        const mobileNav = document.getElementById('main-nav');
+                        if (mobileNav.classList.contains('active')) {
+                            mobileNav.classList.remove('active');
+                        }
+                        
+                        // Calculer l'offset pour compenser le header fixe
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetSection.offsetTop - headerHeight - 20;
+                        
+                        // Navigation fluide
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Mise à jour de l'état actif du menu lors du scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section[id]');
+                const headerHeight = document.querySelector('header').offsetHeight;
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - headerHeight - 50;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    const scrollPosition = window.scrollY;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                // Mettre à jour les liens actifs
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 </body>
