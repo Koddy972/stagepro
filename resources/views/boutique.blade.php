@@ -225,35 +225,58 @@
         
         /* Hero section */
         .hero {
-            background: linear-gradient(rgba(13, 47, 79, 0.85), rgba(13, 47, 79, 0.9)), url('https://images.unsplash.com/photo-1593810450969-f6b3a5f754c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            padding: 100px 0;
-            text-align: center;
-            color: var(--white);
-            min-height: 83vh;      /* Ajouté : occupe toute la hauteur de l'écran */
-            display: flex;          /* Ajouté : centrer verticalement */
-            align-items: center;    /* Ajouté : centrer verticalement */
+            position:relative;
+            width:100vw;
+            left:50%;
+            right:50%;
+            margin-left:-50vw;
+            margin-right:-50vw;
+            min-height:100vh;
+            padding:0;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        
+        .hero img {
+            width:100vw;
+            height:100vh;
+            object-fit:cover;
+            display:block;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:1;
         }
         
         .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
+            position:relative;
+            z-index:2;
+            width:100vw;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
         }
         
         .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
+            color:white;
+            font-size:3rem;
+            text-shadow:0 2px 8px #000;
+            font-weight:700;
             margin-bottom: 20px;
             line-height: 1.2;
         }
         
         .hero p {
-            font-size: 1.15rem;
-            margin-bottom: 35px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+            color:white;
+            font-size:1.3rem;
+            margin-bottom:35px;
+            text-shadow:0 2px 8px #000;
+            max-width:700px;
+            text-align:center;
             font-weight: 300;
         }
         
@@ -773,24 +796,22 @@
                 </nav>
             </div>
         </div>
-    
-
     </header>
 
     <!-- Hero Section -->
-    
-        <section id="accueil" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Expert en Confection & Réparation de Voiles</h1>
-                <p>Spécialistes en fabrication et réparation de voiles, bâches, biminis et capitonnage pour auto, moto, bateau et ameublement</p>
-                <div>
-                    <a href="#contact" class="btn">Demander un devis</a>
-                    <a href="#services" class="btn btn-light">Découvrir nos services</a>
-                </div>
+    <section id="accueil" class="hero" style="position:relative; width:100vw; left:50%; right:50%; margin-left:-50vw; margin-right:-50vw; min-height:100vh; padding:0; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+        <!-- Image hero qui remplit tout l'écran -->
+        <img src="{{ asset('images/hero-boutique.jpg') }}" alt="Boutique Caraïbes Voiles"
+             style="width:100vw; height:100vh; object-fit:cover; display:block; position:absolute; top:0; left:0; z-index:1;">
+        <!-- Texte positionné sur l'image, SANS box/fond -->
+        <div style="position:relative; z-index:2; width:100vw; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <h1 style="color:white; font-size:3rem; text-shadow:0 2px 8px #000; font-weight:700;">Expert en Confection & Réparation de Voiles</h1>
+            <p style="color:white; font-size:1.3rem; margin-bottom:35px; text-shadow:0 2px 8px #000; max-width:700px; text-align:center;">Spécialistes en fabrication et réparation de voiles, bâches, biminis et capitonnage pour auto, moto, bateau et ameublement</p>
+            <div style="text-align:center;">
+                <a href="#contact" class="btn">Demander un devis</a>
+                <a href="#services" class="btn btn-light">Découvrir nos services</a>
             </div>
         </div>
-    
     </section>
 
     <!-- Services Section -->
