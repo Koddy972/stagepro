@@ -135,7 +135,14 @@ class CartController extends Controller
     public function getCartCount()
     {
         $cartItems = $this->getCartItems();
-        return $cartItems->sum('quantity');
+        $count = $cartItems->sum('quantity');
+        
+        // Si c'est une requête AJAX, retourner JSON
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json($count);
+        }
+        
+        return $count;
     }
 
     // Méthodes utilitaires privées    

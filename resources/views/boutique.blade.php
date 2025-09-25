@@ -872,77 +872,74 @@
                 <p>Découvrez notre sélection d'accessoires de qualité pour l'entretien et la protection de vos voiles et équipements</p>
             </div>
             <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://placehold.co/400x400/1a4f7a/ffffff?text=Accessoire+1" alt="Accessoire 1">
-                    </div>
-                    <div class="product-content">
-                        <h3>Kit de Réparation de Voile</h3>
-                        <p>Tout le nécessaire pour les petites réparations sur place.</p>
-                        <div class="product-price">29,99€</div>
-                        <a href="#" class="product-btn">Ajouter au panier</a>
-                    </div>
-                </div>
-                
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://placehold.co/400x400/de419a/ffffff?text=Accessoire+2" alt="Accessoire 2">
-                    </div>
-                    <div class="product-content">
-                        <h3>Nettoyant de Toile Marine</h3>
-                        <p>Nettoyant puissant et sûr pour toutes les toiles et voiles.</p>
-                        <div class="product-price">19,50€</div>
-                        <a href="#" class="product-btn">Ajouter au panier</a>
-                    </div>
-                </div>
+                @php
+                    $products = App\Models\Product::where('in_stock', true)->limit(6)->get();
+                @endphp
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://placehold.co/400x400/0d2f4f/ffffff?text=Accessoire+3" alt="Accessoire 3">
+                @forelse($products as $product)
+                    <div class="product-card" onclick="window.location.href='{{ route('products.show', $product) }}'" style="cursor: pointer;">
+                        <div class="product-image">
+                            @if($product->image)
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                            @else
+                                <img src="https://placehold.co/400x400/1a4f7a/ffffff?text={{ urlencode($product->name) }}" alt="{{ $product->name }}">
+                            @endif
+                        </div>
+                        <div class="product-content">
+                            <h3>{{ Str::limit($product->name, 30) }}</h3>
+                            <p>{{ Str::limit($product->description, 80) }}</p>
+                            <div class="product-price">{{ number_format($product->price, 2) }}€</div>
+                            <a href="{{ route('products.show', $product) }}" class="product-btn" onclick="event.stopPropagation();">Voir le produit</a>
+                        </div>
                     </div>
-                    <div class="product-content">
-                        <h3>Housse de Protection</h3>
-                        <p>Housse universelle et durable pour protéger votre matériel.</p>
-                        <div class="product-price">45,00€</div>
-                        <a href="#" class="product-btn">Ajouter au panier</a>
+                @empty
+                    <!-- Produits par défaut si pas de produits en base -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/400x400/1a4f7a/ffffff?text=Accessoire+1" alt="Accessoire 1">
+                        </div>
+                        <div class="product-content">
+                            <h3>Kit de Réparation de Voile</h3>
+                            <p>Tout le nécessaire pour les petites réparations sur place.</p>
+                            <div class="product-price">29,99€</div>
+                            <a href="#" class="product-btn">Ajouter au panier</a>
+                        </div>
                     </div>
-                </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/400x400/de419a/ffffff?text=Accessoire+2" alt="Accessoire 2">
+                        </div>
+                        <div class="product-content">
+                            <h3>Nettoyant de Toile Marine</h3>
+                            <p>Nettoyant puissant et sûr pour toutes les toiles et voiles.</p>
+                            <div class="product-price">19,50€</div>
+                            <a href="#" class="product-btn">Ajouter au panier</a>
+                        </div>
+                    </div>
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://placehold.co/400x400/1a4f7a/ffffff?text=Accessoire+4" alt="Accessoire 4">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/400x400/0d2f4f/ffffff?text=Accessoire+3" alt="Accessoire 3">
+                        </div>
+                        <div class="product-content">
+                            <h3>Housse de Protection</h3>
+                            <p>Housse universelle et durable pour protéger votre matériel.</p>
+                            <div class="product-price">45,00€</div>
+                            <a href="#" class="product-btn">Ajouter au panier</a>
+                        </div>
                     </div>
-                    <div class="product-content">
-                        <h3>Corde de Qualité Supérieure</h3>
-                        <p>Corde résistante aux UV, idéale pour les applications marines.</p>
-                        <div class="product-price">15,00€</div>
-                        <a href="#" class="product-btn">Ajouter au panier</a>
-                    </div>
-                </div>
+                @endforelse
 
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://placehold.co/400x400/de419a/ffffff?text=Accessoire+5" alt="Accessoire 5">
+                @if($products->count() >= 6)
+                    <div class="product-card" style="background: linear-gradient(135deg, var(--dark-blue), var(--medium-blue)); color: white; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                        <a href="{{ route('products.index') }}" style="color: white; text-decoration: none; text-align: center;">
+                            <i class="fas fa-plus" style="font-size: 3rem; margin-bottom: 20px; color: var(--gold);"></i>
+                            <h3>Voir tous nos produits</h3>
+                            <p>Découvrez notre gamme complète</p>
+                        </a>
                     </div>
-                    <div class="product-content">
-                        <h3>Cire d'Étanchéité</h3>
-                        <p>Cire pour joints et coutures, garantissant une étanchéité parfaite de vos voiles et bâches.</p>
-                        <div class="product-price">12,50€</div>
-                        <a href="#" class="product-btn">Ajouter au panier</a>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://placehold.co/400x400/0d2f4f/ffffff?text=Accessoire+6" alt="Accessoire 6">
-                    </div>
-                    <div class="product-content">
-                        <h3>Kit de Rénovation de Tissu</h3>
-                        <p>Un kit complet pour revitaliser les tissus de vos équipements.</p>
-                        <div class="product-price">35,00€</div>
-                        <a href="#" class="product-btn">Ajouter au panier</a>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </section>
