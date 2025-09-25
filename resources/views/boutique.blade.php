@@ -36,6 +36,7 @@
             color: var(--text-gray);
             line-height: 1.6;
             font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden; /* Ajouté pour supprimer la scrollbar horizontale */
         }
         
         .container {
@@ -225,40 +226,37 @@
         
         /* Hero section */
         .hero {
-            position:relative;
-            width:100vw;
-            left:50%;
-            right:50%;
-            margin-left:-50vw;
-            margin-right:-50vw;
-            min-height:100vh;
-            padding:0;
-            overflow:hidden;
-            display:flex;
-            align-items:center;
-            justify-content:center;
+            position: relative;
+            width: 100%;           /* Modifié */
+            min-height: 85vh;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Supprimez left, right, margin-left, margin-right */
         }
         
         .hero img {
-            width:100vw;
-            height:100vh;
-            object-fit:cover;
-            display:block;
-            position:absolute;
-            top:0;
-            left:0;
-            z-index:1;
+            width: 100%;
+            height: 70vh;      /* Modifié ici */
+            object-fit: cover;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
         
         .hero-content {
-            position:relative;
-            z-index:2;
-            width:100vw;
-            height:100vh;
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 80vh;      /* Modifié ici */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .hero h1 {
@@ -799,14 +797,14 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="accueil" class="hero" style="position:relative; width:100vw; left:50%; right:50%; margin-left:-50vw; margin-right:-50vw; min-height:100vh; padding:0; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+    <section id="accueil" class="hero">
         <!-- Image hero qui remplit tout l'écran -->
-        <img src="{{ asset('images/hero-boutique.jpg') }}" alt="Boutique Caraïbes Voiles"
-             style="width:100vw; height:100vh; object-fit:cover; display:block; position:absolute; top:0; left:0; z-index:1;">
+        <img src="{{ asset('images/hero-boutique3.jpg') }}" alt="Boutique Caraïbes Voiles"
+             style="width:100%; height:100vh; object-fit:cover; display:block; position:absolute; top:0; left:0; z-index:1;">
         <!-- Texte positionné sur l'image, SANS box/fond -->
-        <div style="position:relative; z-index:2; width:100vw; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-            <h1 style="color:white; font-size:3rem; text-shadow:0 2px 8px #000; font-weight:700;">Expert en Confection & Réparation de Voiles</h1>
-            <p style="color:white; font-size:1.3rem; margin-bottom:35px; text-shadow:0 2px 8px #000; max-width:700px; text-align:center;">Spécialistes en fabrication et réparation de voiles, bâches, biminis et capitonnage pour auto, moto, bateau et ameublement</p>
+        <div class="hero-content">
+            <h1>Expert en Confection & Réparation de Voiles</h1>
+            <p>Spécialistes en fabrication et réparation de voiles, bâches, biminis et capitonnage pour auto, moto, bateau et ameublement</p>
             <div style="text-align:center;">
                 <a href="#contact" class="btn">Demander un devis</a>
                 <a href="#services" class="btn btn-light">Découvrir nos services</a>
