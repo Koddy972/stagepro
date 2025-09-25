@@ -231,6 +231,9 @@
             padding: 100px 0;
             text-align: center;
             color: var(--white);
+            min-height: 83vh;      /* Ajouté : occupe toute la hauteur de l'écran */
+            display: flex;          /* Ajouté : centrer verticalement */
+            align-items: center;    /* Ajouté : centrer verticalement */
         }
         
         .hero-content {
