@@ -363,7 +363,7 @@
                     <ul>
                         <li><a href="{{ route('accueil') }}">Accueil</a></li>
                         <li><a href="/service">Services</a></li>
-                        <li><a href="{{ route('boutique') }}">Boutique</a></li>
+                        <li><a href="{{ route('accueil') }}#boutique">Boutique</a></li>
                         <li><a href="#about">À Propos</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li class="cart-icon">

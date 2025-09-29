@@ -5,15 +5,16 @@ use App\Http\Controllers\BoutiqueController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('accueil');
+Route::get('/', [BoutiqueController::class, 'index'])->name('accueil');
 
 Route::get('/service', function () {
     return view('service');
 })->name('service');
 
-Route::get('/boutique', [BoutiqueController::class, 'index'])->name('boutique');
+// Redirection de l'ancienne route boutique vers accueil
+Route::get('/boutique', function () {
+    return redirect()->route('accueil');
+});
 
 Route::resource('products', ProductController::class);
 

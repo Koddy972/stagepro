@@ -81,7 +81,7 @@
                             <i class="fas fa-credit-card"></i> Passer la commande
                         </button>
                         
-                        <a href="{{ route('boutique') }}" class="btn btn-outline-secondary w-100">
+                        <a href="{{ route('accueil') }}#boutique" class="btn btn-outline-secondary w-100">
                             <i class="fas fa-arrow-left"></i> Continuer mes achats
                         </a>
                     </div>
@@ -93,7 +93,7 @@
             <i class="fas fa-shopping-cart fa-5x text-muted mb-3"></i>
             <h3>Votre panier est vide</h3>
             <p class="text-muted">Découvrez nos produits et ajoutez-les à votre panier</p>
-            <a href="{{ route('boutique') }}" class="btn btn-primary">
+            <a href="{{ route('accueil') }}#boutique" class="btn btn-primary">
                 <i class="fas fa-store"></i> Voir la boutique
             </a>
         </div>

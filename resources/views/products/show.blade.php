@@ -70,7 +70,7 @@
                 @endif
 
                 <div style="margin-top: 20px;">
-                    <a href="{{ route('boutique') }}" style="color: var(--dark-blue); text-decoration: none;">
+                    <a href="{{ route('accueil') }}#boutique" style="color: var(--dark-blue); text-decoration: none;">
                         <i class="fas fa-arrow-left"></i> Retour à la boutique
                     </a>
                 </div>
