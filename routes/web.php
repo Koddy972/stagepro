@@ -11,10 +11,8 @@ Route::get('/service', function () {
     return view('service');
 })->name('service');
 
-// Redirection de l'ancienne route boutique vers accueil
-Route::get('/boutique', function () {
-    return redirect()->route('accueil');
-});
+// Route pour la page boutique
+Route::get('/boutique', [BoutiqueController::class, 'boutique'])->name('boutique');
 
 Route::resource('products', ProductController::class);
 

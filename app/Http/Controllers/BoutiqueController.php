@@ -17,4 +17,15 @@ class BoutiqueController extends Controller
         
         return view('accueil', compact('products'));
     }
+
+    /**
+     * Affiche la page boutique complète
+     */
+    public function boutique()
+    {
+        // Récupère tous les produits
+        $products = Product::where('in_stock', true)->get();
+        
+        return view('boutiquepage', compact('products'));
+    }
 }
