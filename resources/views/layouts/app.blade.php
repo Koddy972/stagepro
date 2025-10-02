@@ -250,6 +250,45 @@
             font-weight: bold;
         }
         
+        /* Styles pour le bouton admin */
+        .admin-btn {
+            background-color: var(--dark-blue) !important;
+            color: var(--white) !important;
+            padding: 10px 15px !important;
+            border-radius: 4px !important;
+            font-weight: 600 !important;
+            transition: all 0.3s !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+        
+        .admin-btn:hover {
+            background-color: var(--gold) !important;
+            color: var(--dark-blue) !important;
+            transform: translateY(-2px);
+        }
+        
+        .logout-form {
+            display: inline;
+        }
+        
+        .logout-form button {
+            background: none;
+            border: none;
+            color: var(--dark-blue);
+            font: inherit;
+            cursor: pointer;
+            padding: 0;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .logout-form button:hover {
+            color: var(--gold);
+        }
+        
         /* Styles utilitaires */
         .btn {
             display: inline-block;
@@ -366,6 +405,25 @@
                         <li><a href="{{ route('boutique') }}">Boutique</a></li>
                         <li><a href="{{ route('accueil') }}#about">À Propos</a></li>
                         <li><a href="{{ route('accueil') }}#contact">Contact</a></li>
+                        
+                        @if(session('admin_authenticated'))
+                            <li>
+                                <a href="{{ route('products.index') }}" class="admin-btn">
+                                    <i class="fas fa-cog"></i>
+                                    Gestion
+                                </a>
+                            </li>
+                            <li>
+                                <form action="{{ route('admin.logout') }}" method="POST" class="logout-form">
+                                    @csrf
+                                    <button type="submit">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        Déconnexion
+                                    </button>
+                                </form>
+                            </li>
+                        @endif
+                        
                         <li class="cart-icon">
                             <a href="{{ route('cart.index') }}">
                                 <i class="fas fa-shopping-cart"></i>

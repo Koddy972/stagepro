@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BoutiqueController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BoutiqueController::class, 'index'])->name('accueil');
@@ -14,7 +15,18 @@ Route::get('/service', function () {
 // Route pour la page boutique
 Route::get('/boutique', [BoutiqueController::class, 'boutique'])->name('boutique');
 
-Route::resource('products', ProductController::class);
+// Routes d'authentification admin
+Route::get('/admin/login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.post');
+Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+// Routes protégées pour la gestion des produits (réservées à l'admin)
+Route::middleware(['admin'])->group(function() {
+    Route::resource('products', ProductController::class)->except(['show']);
+});
+
+// Route publique pour voir un produit (sans protection)
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // Routes du panier
 Route::prefix('cart')->name('cart.')->group(function() {

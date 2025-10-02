@@ -1,12 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Gestion des produits</h1>
-    <a href="{{ route('products.create') }}" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Ajouter un produit
-    </a>
-</div>
+<div class="container mt-5">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestion des produits</h1>
+        <a href="{{ route('products.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Ajouter un produit
+        </a>
+    </div>
 
 <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -59,5 +67,6 @@
             @endforeach
         </tbody>
     </table>
+</div>
 </div>
 @endsection
