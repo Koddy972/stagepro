@@ -137,9 +137,9 @@ class CartController extends Controller
         $cartItems = $this->getCartItems();
         $count = $cartItems->sum('quantity');
         
-        // Si c'est une requête AJAX, retourner JSON
+        // Si c'est une requête AJAX, retourner JSON avec la propriété 'count'
         if (request()->ajax() || request()->wantsJson()) {
-            return response()->json($count);
+            return response()->json(['count' => $count]);
         }
         
         return $count;

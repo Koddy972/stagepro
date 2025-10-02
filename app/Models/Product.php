@@ -11,7 +11,9 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'category',
         'description',
+        'features',
         'price',
         'in_stock',
         'image'
@@ -19,6 +21,7 @@ class Product extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        'in_stock' => 'boolean'
+        'in_stock' => 'boolean',
+        'features' => 'array'
     ];
 }

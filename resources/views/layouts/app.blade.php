@@ -409,7 +409,8 @@
         function updateCartCount() {
             fetch('/cart/count')
                 .then(response => response.json())
-                .then(count => {
+                .then(data => {
+                    const count = data.count || data || 0;
                     const cartCountElement = document.getElementById('cart-count');
                     if (cartCountElement) {
                         cartCountElement.textContent = count;

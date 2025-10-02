@@ -15,7 +15,7 @@
         <div class="row">
             @foreach($products as $product)
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100 shadow-sm border-0" style="transition: transform 0.3s;">
+                    <div class="card h-100 shadow-sm border-0" style="transition: transform 0.3s; cursor: pointer;" onclick="window.location.href='{{ route('products.show', $product) }}'">
                         <div class="card-img-top" style="height: 250px; background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                             @if($product->image)
                                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: cover;">
@@ -29,26 +29,18 @@
                                 {{ $product->name }}
                             </h5>
                             <p class="card-text flex-grow-1" style="color: var(--text-gray);">
-                                {{ $product->description }}
+                                {{ Str::limit($product->description, 100) }}
                             </p>
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <span class="h4 mb-0" style="color: var(--gold); font-weight: 700;">
                                     {{ number_format($product->price, 2) }} €
                                 </span>
-                                @if($product->in_stock)
-                                    <button type="button" 
-                                            class="btn btn-primary add-to-cart-btn" 
-                                            data-product-id="{{ $product->id }}"
-                                            data-product-name="{{ $product->name }}"
-                                            data-product-price="{{ $product->price }}"
-                                            style="background-color: var(--dark-blue); border-color: var(--dark-blue);">
-                                        <i class="fas fa-shopping-cart"></i> Ajouter
-                                    </button>
-                                @else
-                                    <button type="button" class="btn btn-secondary" disabled>
-                                        Rupture de stock
-                                    </button>
-                                @endif
+                                <a href="{{ route('products.show', $product) }}" 
+                                   class="btn btn-primary" 
+                                   onclick="event.stopPropagation();"
+                                   style="background-color: var(--dark-blue); border-color: var(--dark-blue);">
+                                    <i class="fas fa-eye"></i> Voir le produit
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -1,14 +1,572 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $product->name }} - Caraïbes Voiles Manutention</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <style>
-        :root{--dark-blue:#0d2f4f;--medium-blue:#1a4f7a;--light-blue:#e9f1f7;--gold:#de419a;--dark-gold:#a98b56;--white:#fff;--light-gray:#f8f9fa;--dark-gray:#2d3436;--text-gray:#5c5c5c}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:120px}body{background-color:var(--light-gray);color:var(--text-gray);line-height:1.6;font-family:Montserrat,sans-serif}.container{width:100%;max-width:1200px;margin:0 auto;padding:0 20px}header{background:var(--white);box-shadow:0 2px 15px rgba(0,0,0,.08);position:sticky;top:0;z-index:1000}.header-top{background:var(--dark-blue);padding:8px 0;font-size:.85rem}.header-top-container{display:flex;justify-content:space-between;align-items:center}.header-contact{display:flex;gap:25px}.header-contact a{color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px;transition:opacity .3s}.header-contact i{color:var(--gold)}.social-links{display:flex;gap:15px}.social-links a{color:var(--white);transition:color .3s}.social-links a:hover{color:var(--gold)}.main-header{padding:15px 0}.header-content{display:flex;justify-content:space-between;align-items:center}.logo{display:flex;align-items:center;gap:15px;text-decoration:none}.logo-icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:2.5rem;background:transparent}.logo-icon img{width:100%;height:100%;object-fit:contain}.logo-text{display:flex;flex-direction:column}.logo-main{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--dark-blue);line-height:1.1}.logo-subtitle{font-size:.95rem;color:var(--gold);font-weight:500;letter-spacing:1px;margin-top:3px}nav ul{display:flex;list-style:none;gap:35px}nav ul li a{color:var(--dark-blue);text-decoration:none;font-weight:500;font-size:.95rem;transition:color .3s;position:relative;padding:8px 0}nav ul li a:after{content:'';position:absolute;width:0;height:2px;bottom:0;left:0;background-color:var(--gold);transition:width .3s ease}nav ul li a:hover{color:var(--gold)}nav ul li a:hover:after{width:100%}.nav-cta{background-color:var(--gold)!important;color:var(--dark-blue)!important;padding:10px 22px!important;border-radius:4px;font-weight:600!important;transition:all .3s!important;margin-left:20px}.nav-cta:hover{background-color:var(--dark-blue)!important;color:var(--gold)!important;transform:translateY(-2px);box-shadow:0 6px 12px rgba(0,0,0,.2)}.nav-cta:after{display:none}.btn{display:inline-block;background-color:var(--gold);color:var(--dark-blue);padding:14px 32px;text-decoration:none;border-radius:4px;font-weight:600;transition:all .3s;border:1px solid var(--gold);box-shadow:0 4px 12px rgba(0,0,0,.15);cursor:pointer}.btn:hover{background-color:var(--dark-blue);color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,0,0,.2)}.product-detail-section{padding:60px 0;background:var(--white)}.product-container{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}.product-images{position:sticky;top:140px}.main-product-image{width:100%;height:500px;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.1);margin-bottom:20px;background:var(--light-blue)}.main-product-image img{width:100%;height:100%;object-fit:cover}.product-thumbnails{display:flex;gap:15px;justify-content:center}.product-thumbnails img{width:100px;height:100px;object-fit:cover;border-radius:8px;cursor:pointer;border:3px solid transparent;transition:all .3s}.product-thumbnails img:hover,.product-thumbnails img.active{border-color:var(--gold);transform:scale(1.05)}.product-info h1{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--dark-blue);margin-bottom:15px}.product-price{font-size:2.5rem;font-weight:700;color:var(--gold);margin-bottom:25px}.stock-status{display:inline-block;padding:8px 16px;border-radius:20px;font-size:.9rem;font-weight:600;margin-bottom:25px}.in-stock{background:rgba(39,174,96,.1);color:#27ae60}.out-stock{background:rgba(231,76,60,.1);color:#e74c3c}.product-description{line-height:1.8;margin-bottom:30px;color:var(--text-gray);font-size:1.05rem}.product-features{background:var(--light-blue);padding:25px;border-radius:8px;margin-bottom:30px}.product-features h3{font-size:1.3rem;color:var(--dark-blue);margin-bottom:15px}.product-features ul{list-style:none}.product-features li{margin-bottom:12px;padding-left:30px;position:relative;color:var(--text-gray)}.product-features li:before{content:"\f00c";font-family:"Font Awesome 6 Free";font-weight:900;color:var(--gold);position:absolute;left:0}.quantity-control{display:flex;align-items:center;gap:20px;margin-bottom:30px}.quantity-control span{font-weight:600;color:var(--dark-blue)}.quantity-input{display:flex;align-items:center;border:2px solid var(--light-blue);border-radius:8px;overflow:hidden}.quantity-input button{background:var(--light-blue);border:none;padding:12px 18px;cursor:pointer;transition:background .3s;font-size:1.2rem;color:var(--dark-blue)}.quantity-input button:hover:not(:disabled){background:var(--gold);color:var(--white)}.quantity-input button:disabled{opacity:.5;cursor:not-allowed}.quantity-input input{border:none;width:60px;text-align:center;font-size:1.1rem;font-weight:600;padding:12px 0;color:var(--dark-blue)}.add-to-cart-btn{width:100%;background:var(--gold);color:var(--dark-blue);padding:18px;border:none;border-radius:8px;font-size:1.2rem;font-weight:700;cursor:pointer;transition:all .3s;margin-bottom:20px}.add-to-cart-btn:hover:not(:disabled){background:var(--dark-blue);color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}.add-to-cart-btn:disabled{opacity:.5;cursor:not-allowed}.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--dark-blue);text-decoration:none;font-weight:600;transition:color .3s}.back-link:hover{color:var(--gold)}.related-products{padding:80px 0;background:var(--light-blue)}.section-title{text-align:center;margin-bottom:50px}.section-title h2{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--dark-blue);position:relative;display:inline-block;padding-bottom:15px}.section-title h2:after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60px;height:3px;background:var(--gold);border-radius:2px}.products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}.product-card{background:var(--white);border-radius:8px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.08);transition:all .3s;cursor:pointer;height:100%;display:flex;flex-direction:column}.product-card:hover{transform:translateY(-8px);box-shadow:0 15px 30px rgba(0,0,0,.15)}.product-image{width:100%;height:250px;overflow:hidden;background:var(--light-blue)}.product-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s}.product-card:hover .product-image img{transform:scale(1.05)}.product-content{padding:25px;flex-grow:1;display:flex;flex-direction:column;justify-content:space-between;text-align:center}.product-content h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--dark-blue);margin-bottom:15px}.product-content .price{font-size:1.6rem;font-weight:700;color:var(--gold);margin-bottom:15px}.product-btn{background:var(--medium-blue);color:var(--white);padding:12px 25px;border-radius:6px;text-decoration:none;display:inline-block;transition:all .3s}.product-btn:hover{background:var(--gold);color:var(--dark-blue)}.notification{position:fixed;top:100px;right:20px;padding:20px 25px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:2000;opacity:0;transform:translateX(100%);transition:all .3s;font-weight:600;display:flex;align-items:center;gap:12px}.notification.show{opacity:1;transform:translateX(0)}.notification.success{background:#27ae60;color:var(--white)}.notification.error{background:#e74c3c;color:var(--white)}.notification i{font-size:1.4rem}footer{background:var(--dark-blue);color:var(--white);padding:60px 0 25px}.footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:40px}.footer-logo .logo-main{color:var(--white)}.footer-about p{margin-bottom:20px;line-height:1.7;opacity:.85}.footer-heading{font-size:1.1rem;margin-bottom:20px;color:var(--gold);font-weight:600}.footer-links ul{list-style:none}.footer-links ul li{margin-bottom:12px}.footer-links ul li a{color:var(--white);text-decoration:none;opacity:.85;transition:opacity .3s}.footer-links ul li a:hover{opacity:1;color:var(--gold)}.footer-social{display:flex;gap:15px;margin-top:20px}.footer-social a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(255,255,255,.1);color:var(--white);border-radius:4px;text-decoration:none;transition:all .3s}.footer-social a:hover{background:var(--gold);color:var(--dark-blue);transform:translateY(-3px)}.copyright{padding-top:25px;border-top:1px solid rgba(255,255,255,.1);font-size:.9rem;text-align:center;opacity:.7}@media (max-width:992px){.product-container{grid-template-columns:1fr}.product-images{position:static}}@media (max-width:768px){.header-top-container{flex-direction:column;gap:10px}.header-content{flex-direction:column;gap:20px;text-align:center}nav ul{flex-direction:column;gap:15px}.main-product-image{height:350px}.product-info h1{font-size:2rem}.products-grid{grid-template-columns:1fr}}
-    </style>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', $product->name . ' - Caraïbes Voiles Manutention')
+
+@push('styles')
+<style>
+    /* Section Produit */
+    .product-section {
+        padding: 80px 0;
+        background-color: var(--white);
+    }
+
+    .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        align-items: flex-start;
+    }
+
+    .product-image-gallery {
+        flex: 1 1 500px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .main-image {
+        width: 100%;
+        height: 500px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .product-thumbnails {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .product-thumbnails img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: border-color 0.3s, transform 0.3s;
+    }
+    
+    .product-thumbnails img:hover,
+    .product-thumbnails img.active {
+        border-color: var(--gold);
+        transform: scale(1.05);
+    }
+
+    .product-details {
+        flex: 1 1 400px;
+        padding: 20px;
+    }
+
+    .product-details h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        color: var(--dark-blue);
+        margin-bottom: 10px;
+    }
+
+    .product-price {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--gold);
+        margin-bottom: 20px;
+    }
+
+    .product-description {
+        line-height: 1.7;
+        margin-bottom: 30px;
+    }
+
+    .product-features {
+        margin-bottom: 30px;
+    }
+
+    .product-features h3 {
+        font-size: 1.2rem;
+        color: var(--dark-blue);
+        margin-bottom: 10px;
+    }
+
+    .product-features ul {
+        list-style: none;
+    }
+
+    .product-features li {
+        margin-bottom: 8px;
+        position: relative;
+        padding-left: 25px;
+    }
+
+    .product-features li::before {
+        content: "\f00c";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: var(--gold);
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .product-options {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+        align-items: center;
+    }
+
+    .product-options select,
+    .product-options input[type="number"] {
+        padding: 10px 15px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .add-to-cart-btn {
+        background-color: var(--gold);
+        color: var(--dark-blue);
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: 1px solid var(--gold);
+        cursor: pointer;
+    }
+
+    .add-to-cart-btn:hover {
+        background-color: var(--dark-blue);
+        color: var(--gold);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .stock-status {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .in-stock {
+        background: rgba(39, 174, 96, 0.1);
+        color: #27ae60;
+    }
+
+    .out-stock {
+        background: rgba(231, 76, 60, 0.1);
+        color: #e74c3c;
+    }
+
+    /* Section "Produits Similaires" */
+    .related-products {
+        padding: 80px 0;
+        background-color: var(--light-blue);
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+        color: var(--dark-blue);
+        position: relative;
+    }
+
+    .section-title h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+    }
+
+    .section-title:after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 3px;
+        background-color: var(--gold);
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    .product-card {
+        background: var(--white);
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-align: center;
+        border: 1px solid #f1f1f1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 250px;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+
+    .product-content {
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-content h3 {
+        color: var(--dark-blue);
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .product-content p {
+        color: var(--text-gray);
+        font-size: 1rem;
+        margin-bottom: 15px;
+        flex-grow: 1;
+    }
+
+    .product-btn {
+        display: block;
+        background-color: var(--dark-blue);
+        color: var(--white);
+        padding: 12px 25px;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        border: 1px solid var(--dark-blue);
+        text-align: center;
+    }
+
+    .product-btn:hover {
+        background-color: var(--gold);
+        color: var(--dark-blue);
+        border-color: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+        .product-container {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .product-image-gallery, .product-details {
+            flex: 1 1 100%;
+            max-width: 100%;
+        }
+        
+        .main-image {
+            height: 400px;
+        }
+    }
+</style>
+@endpush
+
+@section('content')
+
+<!-- Section Produit -->
+<section class="product-section">
+    <div class="container">
+        <div class="product-container">
+            <div class="product-image-gallery">
+                <div class="main-image">
+                    @if($product->image)
+                        <img id="main-product-image" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                    @else
+                        <img id="main-product-image" src="https://placehold.co/800x800/1a4f7a/ffffff?text={{ urlencode($product->name) }}" alt="{{ $product->name }}">
+                    @endif
+                </div>
+                <div class="product-thumbnails">
+                    @if($product->image)
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="Thumbnail 1" class="active">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="Thumbnail 2">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="Thumbnail 3">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="Thumbnail 4">
+                    @else
+                        <img src="https://placehold.co/80x80/1a4f7a/ffffff?text=1" alt="Thumbnail 1" class="active">
+                        <img src="https://placehold.co/80x80/de419a/ffffff?text=2" alt="Thumbnail 2">
+                        <img src="https://placehold.co/80x80/0d2f4f/ffffff?text=3" alt="Thumbnail 3">
+                        <img src="https://placehold.co/80x80/5c5c5c/ffffff?text=4" alt="Thumbnail 4">
+                    @endif
+                </div>
+            </div>
+            <div class="product-details">
+                <h1>{{ $product->name }}</h1>
+                
+                @if($product->in_stock)
+                    <span class="stock-status in-stock">
+                        <i class="fas fa-check-circle"></i> En stock
+                    </span>
+                @else
+                    <span class="stock-status out-stock">
+                        <i class="fas fa-times-circle"></i> Rupture de stock
+                    </span>
+                @endif
+
+                <div class="product-price">€{{ number_format($product->price, 2) }}</div>
+                
+                <div class="product-description">
+                    <p>{{ $product->description }}</p>
+                </div>
+
+                @if($product->features && is_array($product->features) && count($product->features) > 0)
+                    <div class="product-features">
+                        <h3>Caractéristiques Principales :</h3>
+                        <ul>
+                            @foreach($product->features as $feature)
+                                <li>{{ $feature }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if($product->in_stock)
+                    <div class="product-options">
+                        <div class="quantity-selector">
+                            <span>Quantité:</span>
+                            <input type="number" id="quantity" value="1" min="1">
+                        </div>
+                    </div>
+                    
+                    <form action="{{ route('cart.add', $product) }}" method="POST" id="add-to-cart-form">
+                        @csrf
+                        <input type="hidden" name="quantity" id="form-quantity" value="1">
+                        <button type="submit" class="add-to-cart-btn">
+                            <i class="fas fa-shopping-cart"></i> Ajouter au panier
+                        </button>
+                    </form>
+                @else
+                    <button class="add-to-cart-btn" disabled>
+                        <i class="fas fa-times-circle"></i> Produit indisponible
+                    </button>
+                @endif
+
+                <a href="{{ route('boutique') }}" class="back-link" style="display: inline-flex; align-items: center; gap: 8px; color: var(--dark-blue); text-decoration: none; font-weight: 600; margin-top: 20px;">
+                    <i class="fas fa-arrow-left"></i> Retour à la boutique
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Produits Similaires -->
+<section class="related-products">
+    <div class="container">
+        <div class="section-title">
+            <h2>Produits Similaires</h2>
+        </div>
+        <div class="products-grid">
+            @php
+                $relatedProducts = App\Models\Product::where('id', '!=', $product->id)
+                    ->where('in_stock', true)
+                    ->take(3)
+                    ->get();
+            @endphp
+            
+            @foreach($relatedProducts as $related)
+                <div class="product-card" onclick="window.location.href='{{ route('products.show', $related) }}'">
+                    <div class="product-image">
+                        @if($related->image)
+                            <img src="{{ asset('storage/' . $related->image) }}" alt="{{ $related->name }}">
+                        @else
+                            <img src="https://placehold.co/400x400/1a4f7a/ffffff?text={{ urlencode(Str::limit($related->name, 20)) }}" alt="{{ $related->name }}">
+                        @endif
+                    </div>
+                    <div class="product-content">
+                        <h3>{{ Str::limit($related->name, 40) }}</h3>
+                        <p>{{ Str::limit($related->description, 80) }}</p>
+                        <div class="product-price">€{{ number_format($related->price, 2) }}</div>
+                        <a href="{{ route('products.show', $related) }}" class="product-btn" onclick="event.stopPropagation();">Voir le produit</a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+@endsection
+
+@push('scripts')
+<script>
+    // Script pour changer l'image principale au clic sur les vignettes
+    document.addEventListener('DOMContentLoaded', function() {
+        const mainImage = document.getElementById('main-product-image');
+        const thumbnails = document.querySelectorAll('.product-thumbnails img');
+        const quantityInput = document.getElementById('quantity');
+        const formQuantity = document.getElementById('form-quantity');
+
+        // Gestion des vignettes
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                thumbnails.forEach(img => img.classList.remove('active'));
+                this.classList.add('active');
+                mainImage.src = this.src.replace('/80x80/', '/800x800/');
+            });
+        });
+
+        // Synchroniser la quantité avec le formulaire
+        if (quantityInput && formQuantity) {
+            quantityInput.addEventListener('change', function() {
+                formQuantity.value = this.value;
+            });
+        }
+
+        // Gestion du formulaire d'ajout au panier
+        const form = document.getElementById('add-to-cart-form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Afficher une notification de succès
+                        showNotification('Produit ajouté au panier !', 'success');
+                        
+                        // Mettre à jour le compteur du panier
+                        if (window.updateCartCount) {
+                            window.updateCartCount();
+                        } else {
+                            updateCartCountLocal();
+                        }
+                    } else {
+                        showNotification('Erreur lors de l\'ajout au panier', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Une erreur est survenue', 'error');
+                });
+            });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 2000;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            if (type === 'success') {
+                notification.style.background = '#27ae60';
+                notification.style.color = 'white';
+                notification.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            } else {
+                notification.style.background = '#e74c3c';
+                notification.style.color = 'white';
+                notification.innerHTML = '<i class="fas fa-times-circle"></i> ' + message;
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Retirer après 3 secondes
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function updateCartCountLocal() {
+            fetch('{{ route("cart.count") }}')
+                .then(response => response.json())
+                .then(data => {
+                    const count = data.count || data || 0;
+                    const cartBadge = document.querySelector('.cart-count, #cart-count');
+                    if (cartBadge) {
+                        cartBadge.textContent = count;
+                        cartBadge.style.display = count > 0 ? 'flex' : 'none';
+                    }
+                })
+                .catch(error => console.error('Erreur:', error));
+        }
+    });
+
+    // Animations CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+@endpush
