@@ -6,8 +6,8 @@
 <style>
     /* Section Produit */
     .product-section {
-        padding: 80px 0;
-        background-color: var(--white);
+        padding: 60px 0;
+        background-color: var(--light-gray);
     }
 
     .product-container {
@@ -15,6 +15,10 @@
         flex-wrap: wrap;
         gap: 40px;
         align-items: flex-start;
+        background: var(--white);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
 
     .product-image-gallery {
@@ -27,10 +31,9 @@
     .main-image {
         width: 100%;
         height: 500px;
-        background-color: #f0f0f0;
-        border-radius: 8px;
+        border-radius: 6px;
         overflow: hidden;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     }
 
     .main-image img {
@@ -46,11 +49,11 @@
     }
     
     .product-thumbnails img {
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
         object-fit: cover;
         border-radius: 4px;
-        border: 2px solid transparent;
+        border: 2px solid #ccc;
         cursor: pointer;
         transition: border-color 0.3s, transform 0.3s;
     }
@@ -63,112 +66,150 @@
 
     .product-details {
         flex: 1 1 400px;
-        padding: 20px;
     }
 
     .product-details h1 {
-        font-family: 'Playfair Display', serif;
-        font-size: 2.5rem;
-        color: var(--dark-blue);
-        margin-bottom: 10px;
+        font-size: 2.2rem;
+        margin-bottom: 8px;
+    }
+
+    .product-details .product-category {
+        font-size: 0.9rem;
+        color: var(--text-gray);
+        font-weight: 500;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .product-price {
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-weight: 700;
+        color: var(--dark-blue);
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--light-blue);
+    }
+
+    .stock-badge {
+        font-size: 1rem;
         color: var(--gold);
-        margin-bottom: 20px;
+        font-weight: 500;
+        margin-left: 10px;
+    }
+
+    .out-of-stock {
+        color: #e74c3c;
     }
 
     .product-description {
         line-height: 1.7;
         margin-bottom: 30px;
+        background-color: var(--light-gray);
+        padding: 15px;
+        border-radius: 4px;
+        border-left: 4px solid var(--gold);
     }
 
-    .product-features {
+    /* Liste simplifiée des caractéristiques */
+    .product-features-list {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        gap: 15px;
         margin-bottom: 30px;
     }
 
-    .product-features h3 {
-        font-size: 1.2rem;
-        color: var(--dark-blue);
-        margin-bottom: 10px;
-    }
-
-    .product-features ul {
-        list-style: none;
-    }
-
-    .product-features li {
-        margin-bottom: 8px;
+    .product-features-list li {
         position: relative;
-        padding-left: 25px;
+        padding-left: 20px;
+        font-size: 0.9rem;
+        color: var(--dark-blue);
+        font-weight: 500;
+        flex: 0 0 calc(50% - 15px);
     }
 
-    .product-features li::before {
+    .product-features-list li::before {
         content: "\f00c";
         font-family: "Font Awesome 6 Free";
         font-weight: 900;
         color: var(--gold);
         position: absolute;
         left: 0;
-        top: 0;
+        top: 2px;
+        font-size: 0.8rem;
     }
-
-    .product-options {
+    
+    .product-action-group {
         display: flex;
-        gap: 20px;
-        margin-bottom: 30px;
         align-items: center;
+        gap: 20px;
+        margin-top: 30px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
     }
 
-    .product-options select,
-    .product-options input[type="number"] {
-        padding: 10px 15px;
+    .quantity-selector span {
+        font-weight: 600;
+        color: var(--dark-blue);
+        margin-right: 10px;
+    }
+
+    .quantity-selector input[type="number"] {
+        padding: 8px 12px;
         border-radius: 4px;
         border: 1px solid #ccc;
         font-family: 'Montserrat', sans-serif;
+        width: 70px;
+        text-align: center;
     }
 
     .add-to-cart-btn {
         background-color: var(--gold);
         color: var(--dark-blue);
-        padding: 15px 30px;
+        padding: 12px 30px;
         text-decoration: none;
         border-radius: 4px;
-        font-weight: 600;
+        font-weight: 700;
+        font-size: 1rem;
         transition: all 0.3s;
         border: 1px solid var(--gold);
         cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 10px rgba(222, 65, 154, 0.3);
     }
 
     .add-to-cart-btn:hover {
         background-color: var(--dark-blue);
         color: var(--gold);
-        transform: translateY(-3px);
+        transform: translateY(-1px);
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .stock-status {
-        display: inline-block;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 0.9rem;
+    .add-to-cart-btn:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--dark-blue);
+        text-decoration: none;
         font-weight: 600;
-        margin-bottom: 20px;
+        margin-top: 20px;
+        transition: color 0.3s;
     }
 
-    .in-stock {
-        background: rgba(39, 174, 96, 0.1);
-        color: #27ae60;
+    .back-link:hover {
+        color: var(--gold);
     }
 
-    .out-stock {
-        background: rgba(231, 76, 60, 0.1);
-        color: #e74c3c;
-    }
-
-    /* Section "Produits Similaires" */
+    /* Section Produits Similaires */
     .related-products {
         padding: 80px 0;
         background-color: var(--light-blue);
@@ -176,24 +217,20 @@
 
     .section-title {
         text-align: center;
-        margin-bottom: 60px;
-        color: var(--dark-blue);
-        position: relative;
+        margin-bottom: 40px;
     }
 
     .section-title h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: 2.2rem;
-        margin-bottom: 15px;
+        font-size: 2rem;
+        margin-bottom: 10px;
     }
 
     .section-title:after {
         content: '';
-        position: absolute;
-        width: 60px;
+        width: 50px;
         height: 3px;
         background-color: var(--gold);
-        bottom: -20px;
+        bottom: -15px;
         left: 50%;
         transform: translateX(-50%);
         border-radius: 2px;
@@ -202,17 +239,15 @@
     .products-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
+        gap: 20px;
     }
 
     .product-card {
         background: var(--white);
         border-radius: 6px;
-        overflow: hidden;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         transition: transform 0.3s, box-shadow 0.3s;
         text-align: center;
-        border: 1px solid #f1f1f1;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -220,17 +255,13 @@
     }
 
     .product-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
     .product-image {
         width: 100%;
-        height: 250px;
-        background-color: #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        height: 180px;
         overflow: hidden;
     }
 
@@ -246,58 +277,71 @@
     }
 
     .product-content {
-        padding: 20px;
+        padding: 15px;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
     }
 
     .product-content h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
         color: var(--dark-blue);
-        font-family: 'Playfair Display', serif;
-        font-size: 1.2rem;
-        margin-bottom: 10px;
     }
 
     .product-content p {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
         color: var(--text-gray);
-        font-size: 1rem;
-        margin-bottom: 15px;
         flex-grow: 1;
+    }
+
+    .product-card .product-price {
+        font-weight: 700;
+        color: var(--gold);
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        border-bottom: none;
+        padding-bottom: 0;
     }
 
     .product-btn {
         display: block;
         background-color: var(--dark-blue);
         color: var(--white);
-        padding: 12px 25px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
         text-decoration: none;
         border-radius: 4px;
-        transition: background-color 0.3s;
-        border: 1px solid var(--dark-blue);
-        text-align: center;
+        transition: all 0.3s;
     }
 
     .product-btn:hover {
         background-color: var(--gold);
         color: var(--dark-blue);
-        border-color: var(--gold);
     }
 
+    /* Responsive */
     @media (max-width: 768px) {
         .product-container {
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .product-image-gallery, .product-details {
-            flex: 1 1 100%;
-            max-width: 100%;
+            padding: 15px;
         }
         
         .main-image {
-            height: 400px;
+            height: 300px;
+        }
+        
+        .product-features-list li {
+            flex: 0 0 100%;
+        }
+        
+        .product-action-group {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .add-to-cart-btn {
+            width: 100%;
         }
     }
 </style>
@@ -305,7 +349,7 @@
 
 @section('content')
 
-<!-- Section Produit -->
+<!-- Section Produit PRINCIPALE -->
 <section class="product-section">
     <div class="container">
         <div class="product-container">
@@ -322,67 +366,71 @@
                         <img src="{{ asset('storage/' . $product->image) }}" alt="Thumbnail 1" class="active">
                         <img src="{{ asset('storage/' . $product->image) }}" alt="Thumbnail 2">
                         <img src="{{ asset('storage/' . $product->image) }}" alt="Thumbnail 3">
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="Thumbnail 4">
                     @else
-                        <img src="https://placehold.co/80x80/1a4f7a/ffffff?text=1" alt="Thumbnail 1" class="active">
-                        <img src="https://placehold.co/80x80/de419a/ffffff?text=2" alt="Thumbnail 2">
-                        <img src="https://placehold.co/80x80/0d2f4f/ffffff?text=3" alt="Thumbnail 3">
-                        <img src="https://placehold.co/80x80/5c5c5c/ffffff?text=4" alt="Thumbnail 4">
+                        <img src="https://placehold.co/80x80/1a4f7a/ffffff?text=Image+1" alt="Thumbnail 1" class="active">
+                        <img src="https://placehold.co/80x80/de419a/ffffff?text=Image+2" alt="Thumbnail 2">
+                        <img src="https://placehold.co/80x80/0d2f4f/ffffff?text=Image+3" alt="Thumbnail 3">
                     @endif
                 </div>
             </div>
             <div class="product-details">
+                <div class="product-category">{{ $product->category ?? 'Accessoires et Matériel' }}</div>
                 <h1>{{ $product->name }}</h1>
                 
-                @if($product->in_stock)
-                    <span class="stock-status in-stock">
-                        <i class="fas fa-check-circle"></i> En stock
-                    </span>
-                @else
-                    <span class="stock-status out-stock">
-                        <i class="fas fa-times-circle"></i> Rupture de stock
-                    </span>
-                @endif
+                <div class="product-price">
+                    €{{ number_format($product->price, 2) }} 
+                    @if($product->in_stock)
+                        <span class="stock-badge">(En Stock)</span>
+                    @else
+                        <span class="stock-badge out-of-stock">(Rupture de stock)</span>
+                    @endif
+                </div>
 
-                <div class="product-price">€{{ number_format($product->price, 2) }}</div>
-                
                 <div class="product-description">
                     <p>{{ $product->description }}</p>
                 </div>
-
+                
+                <!-- Liste des fonctionnalités -->
                 @if($product->features && is_array($product->features) && count($product->features) > 0)
-                    <div class="product-features">
-                        <h3>Caractéristiques Principales :</h3>
-                        <ul>
-                            @foreach($product->features as $feature)
-                                <li>{{ $feature }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                    <ul class="product-features-list">
+                        @foreach($product->features as $feature)
+                            <li>{{ $feature }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <ul class="product-features-list">
+                        <li>Qualité professionnelle</li>
+                        <li>Résistant et durable</li>
+                        <li>Grade Marin</li>
+                        <li>Facile à utiliser</li>
+                    </ul>
                 @endif
-
+                
                 @if($product->in_stock)
-                    <div class="product-options">
+                    <div class="product-action-group">
                         <div class="quantity-selector">
                             <span>Quantité:</span>
                             <input type="number" id="quantity" value="1" min="1">
                         </div>
+                        <form action="{{ route('cart.add', $product) }}" method="POST" id="add-to-cart-form" style="margin: 0;">
+                            @csrf
+                            <input type="hidden" name="quantity" id="form-quantity" value="1">
+                            <button type="submit" class="add-to-cart-btn">
+                                <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i>
+                                AJOUTER AU PANIER
+                            </button>
+                        </form>
                     </div>
-                    
-                    <form action="{{ route('cart.add', $product) }}" method="POST" id="add-to-cart-form">
-                        @csrf
-                        <input type="hidden" name="quantity" id="form-quantity" value="1">
-                        <button type="submit" class="add-to-cart-btn">
-                            <i class="fas fa-shopping-cart"></i> Ajouter au panier
-                        </button>
-                    </form>
                 @else
-                    <button class="add-to-cart-btn" disabled>
-                        <i class="fas fa-times-circle"></i> Produit indisponible
-                    </button>
+                    <div class="product-action-group">
+                        <button class="add-to-cart-btn" disabled>
+                            <i class="fas fa-times-circle" style="margin-right: 8px;"></i>
+                            PRODUIT INDISPONIBLE
+                        </button>
+                    </div>
                 @endif
 
-                <a href="{{ route('boutique') }}" class="back-link" style="display: inline-flex; align-items: center; gap: 8px; color: var(--dark-blue); text-decoration: none; font-weight: 600; margin-top: 20px;">
+                <a href="{{ route('boutique') }}" class="back-link">
                     <i class="fas fa-arrow-left"></i> Retour à la boutique
                 </a>
             </div>
@@ -390,11 +438,11 @@
     </div>
 </section>
 
-<!-- Section Produits Similaires -->
+<!-- Section Produits Connexes -->
 <section class="related-products">
     <div class="container">
         <div class="section-title">
-            <h2>Produits Similaires</h2>
+            <h2>Produits Connexes</h2>
         </div>
         <div class="products-grid">
             @php
@@ -404,23 +452,25 @@
                     ->get();
             @endphp
             
-            @foreach($relatedProducts as $related)
+            @forelse($relatedProducts as $related)
                 <div class="product-card" onclick="window.location.href='{{ route('products.show', $related) }}'">
                     <div class="product-image">
                         @if($related->image)
                             <img src="{{ asset('storage/' . $related->image) }}" alt="{{ $related->name }}">
                         @else
-                            <img src="https://placehold.co/400x400/1a4f7a/ffffff?text={{ urlencode(Str::limit($related->name, 20)) }}" alt="{{ $related->name }}">
+                            <img src="https://placehold.co/400x400/de419a/ffffff?text={{ urlencode(Str::limit($related->name, 15)) }}" alt="{{ $related->name }}">
                         @endif
                     </div>
                     <div class="product-content">
                         <h3>{{ Str::limit($related->name, 40) }}</h3>
                         <p>{{ Str::limit($related->description, 80) }}</p>
                         <div class="product-price">€{{ number_format($related->price, 2) }}</div>
-                        <a href="{{ route('products.show', $related) }}" class="product-btn" onclick="event.stopPropagation();">Voir le produit</a>
+                        <a href="{{ route('products.show', $related) }}" class="product-btn" onclick="event.stopPropagation();">Détails</a>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <p style="grid-column: 1/-1; text-align: center; color: var(--text-gray);">Aucun produit connexe disponible pour le moment.</p>
+            @endforelse
         </div>
     </div>
 </section>
@@ -429,14 +479,11 @@
 
 @push('scripts')
 <script>
-    // Script pour changer l'image principale au clic sur les vignettes
     document.addEventListener('DOMContentLoaded', function() {
+        // Gestion des vignettes d'images
         const mainImage = document.getElementById('main-product-image');
         const thumbnails = document.querySelectorAll('.product-thumbnails img');
-        const quantityInput = document.getElementById('quantity');
-        const formQuantity = document.getElementById('form-quantity');
 
-        // Gestion des vignettes
         thumbnails.forEach(thumbnail => {
             thumbnail.addEventListener('click', function() {
                 thumbnails.forEach(img => img.classList.remove('active'));
@@ -445,7 +492,10 @@
             });
         });
 
-        // Synchroniser la quantité avec le formulaire
+        // Synchronisation de la quantité
+        const quantityInput = document.getElementById('quantity');
+        const formQuantity = document.getElementById('form-quantity');
+
         if (quantityInput && formQuantity) {
             quantityInput.addEventListener('change', function() {
                 formQuantity.value = this.value;
@@ -471,31 +521,43 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Afficher une notification de succès
-                        showNotification('Produit ajouté au panier !', 'success');
+                        // Notification de succès
+                        if (window.showNotification) {
+                            window.showNotification('Produit ajouté au panier !', 'success');
+                        } else {
+                            showNotificationLocal('Produit ajouté au panier !', 'success');
+                        }
                         
-                        // Mettre à jour le compteur du panier
+                        // Mise à jour du compteur
                         if (window.updateCartCount) {
                             window.updateCartCount();
                         } else {
                             updateCartCountLocal();
                         }
                     } else {
-                        showNotification('Erreur lors de l\'ajout au panier', 'error');
+                        if (window.showNotification) {
+                            window.showNotification('Erreur lors de l\'ajout au panier', 'error');
+                        } else {
+                            showNotificationLocal('Erreur lors de l\'ajout au panier', 'error');
+                        }
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showNotification('Une erreur est survenue', 'error');
+                    if (window.showNotification) {
+                        window.showNotification('Une erreur est survenue', 'error');
+                    } else {
+                        showNotificationLocal('Une erreur est survenue', 'error');
+                    }
                 });
             });
         }
 
-        function showNotification(message, type) {
+        function showNotificationLocal(message, type) {
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
-                top: 20px;
+                top: 100px;
                 right: 20px;
                 padding: 16px 24px;
                 border-radius: 8px;
@@ -506,6 +568,7 @@
                 align-items: center;
                 gap: 12px;
                 animation: slideIn 0.3s ease-out;
+                min-width: 300px;
             `;
             
             if (type === 'success') {
@@ -520,7 +583,6 @@
             
             document.body.appendChild(notification);
             
-            // Retirer après 3 secondes
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease-out';
                 setTimeout(() => notification.remove(), 300);
