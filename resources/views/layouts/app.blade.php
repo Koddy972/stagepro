@@ -362,10 +362,10 @@
                 <nav>
                     <ul>
                         <li><a href="{{ route('accueil') }}">Accueil</a></li>
-                        <li><a href="/service">Services</a></li>
-                        <li><a href="{{ route('accueil') }}#boutique">Boutique</a></li>
-                        <li><a href="#about">À Propos</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="{{ route('accueil') }}#services">Services</a></li>
+                        <li><a href="{{ route('boutique') }}">Boutique</a></li>
+                        <li><a href="{{ route('accueil') }}#about">À Propos</a></li>
+                        <li><a href="{{ route('accueil') }}#contact">Contact</a></li>
                         <li class="cart-icon">
                             <a href="{{ route('cart.index') }}">
                                 <i class="fas fa-shopping-cart"></i>

@@ -91,7 +91,7 @@
 
             <div class="products-section">
                 <div class="products-header">
-                    <h2>86 Articles trouvés</h2>
+                    <h2>{{ $products->count() }} Article(s) trouvé(s)</h2>
                     <select name="sort" id="sort-by">
                         <option value="pop">Trier par Popularité</option>
                         <option value="price-asc">Prix : du moins cher au plus cher</option>
@@ -101,101 +101,35 @@
                 </div>
                 
                 <div class="products-grid">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://placehold.co/400x220/de419a/0d2f4f?text=Tissu+Voile" alt="Tissu de voile Dacron">
-                        </div>
-                        <div class="product-content">
-                            <div>
-                                <h3>Tissu Dacron Pro 6oz/yd²</h3>
-                                <span class="category-tag">Voilerie & Accastillage</span>
+                    @forelse($products as $product)
+                        <div class="product-card" onclick="window.location.href='{{ route('products.show', $product) }}'" style="cursor: pointer;">
+                            <div class="product-image">
+                                @if($product->image)
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                                @else
+                                    <img src="https://placehold.co/400x220/1a4f7a/ffffff?text={{ urlencode($product->name) }}" alt="{{ $product->name }}">
+                                @endif
                             </div>
-                            <div class="price-action">
-                                <div class="product-price">€25.99 <span style="font-size:0.9rem;color:var(--text-gray);font-weight:400">/m²</span></div>
-                                <a href="#" class="product-btn">Ajouter au panier <i class="fas fa-shopping-cart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://placehold.co/400x220/1a4f7a/ffffff?text=Kit+Reparation" alt="Kit de réparation d'urgence pour voile">
-                        </div>
-                        <div class="product-content">
-                            <div>
-                                <h3>Kit de Réparation d'Urgence Pro</h3>
-                                <span class="category-tag">Matériel de Couture</span>
-                            </div>
-                            <div class="price-action">
-                                <div class="product-price">€49.90</div>
-                                <a href="#" class="product-btn">Ajouter au panier <i class="fas fa-shopping-cart"></i></a>
+                            <div class="product-content">
+                                <div>
+                                    <h3>{{ Str::limit($product->name, 40) }}</h3>
+                                    <span class="category-tag">{{ $product->category ?? 'Produit' }}</span>
+                                </div>
+                                <div class="price-action">
+                                    <div class="product-price">€{{ number_format($product->price, 2) }}</div>
+                                    <a href="{{ route('products.show', $product) }}" class="product-btn" onclick="event.stopPropagation();">
+                                        Voir le produit <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://placehold.co/400x220/0d2f4f/de419a?text=Cordage+Pro" alt="Cordage haute résistance">
+                    @empty
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                            <i class="fas fa-box-open" style="font-size: 4rem; color: var(--text-gray); margin-bottom: 20px;"></i>
+                            <h3 style="color: var(--dark-blue); margin-bottom: 10px;">Aucun produit disponible</h3>
+                            <p style="color: var(--text-gray);">Nos produits seront bientôt disponibles. Revenez plus tard !</p>
                         </div>
-                        <div class="product-content">
-                            <div>
-                                <h3>Cordage Tresse Dyneema 8mm</h3>
-                                <span class="category-tag">Voilerie & Accastillage</span>
-                            </div>
-                            <div class="price-action">
-                                <div class="product-price">€4.50 <span style="font-size:0.9rem;color:var(--text-gray);font-weight:400">/m</span></div>
-                                <a href="#" class="product-btn">Ajouter au panier <i class="fas fa-shopping-cart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://placehold.co/400x220/de419a/0d2f4f?text=Mousse+Capitonnage" alt="Mousse haute densité">
-                        </div>
-                        <div class="product-content">
-                            <div>
-                                <h3>Mousse Haute Densité Extérieure</h3>
-                                <span class="category-tag">Capitonnage</span>
-                            </div>
-                            <div class="price-action">
-                                <div class="product-price">€35.00 <span style="font-size:0.9rem;color:var(--text-gray);font-weight:400">/unité</span></div>
-                                <a href="#" class="product-btn">Ajouter au panier <i class="fas fa-shopping-cart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://placehold.co/400x220/1a4f7a/ffffff?text=Nettoyant" alt="Nettoyant pour bâche">
-                        </div>
-                        <div class="product-content">
-                            <div>
-                                <h3>Nettoyant Pro Bâche UV (5L)</h3>
-                                <span class="category-tag">Protection & Entretien</span>
-                            </div>
-                            <div class="price-action">
-                                <div class="product-price">€65.99</div>
-                                <a href="#" class="product-btn">Ajouter au panier <i class="fas fa-shopping-cart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="https://placehold.co/400x220/0d2f4f/de419a?text=Fil+Couture" alt="Fil à coudre polyester">
-                        </div>
-                        <div class="product-content">
-                            <div>
-                                <h3>Fil Polyester Anti-UV, 500m</h3>
-                                <span class="category-tag">Matériel de Couture</span>
-                            </div>
-                            <div class="price-action">
-                                <div class="product-price">€18.50</div>
-                                <a href="#" class="product-btn">Ajouter au panier <i class="fas fa-shopping-cart"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
