@@ -688,6 +688,7 @@
                         <li><a href="#accueil">Accueil</a></li>
                         <li><a href="#services">Services</a></li>
                         <li><a href="{{ route('boutique') }}">Boutique</a></li>
+                        <li><a href="{{ route('galerie') }}">Galerie</a></li>
                         <li><a href="#about">À Propos</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li><a href="#devis" class="nav-cta">Devis</a></li>

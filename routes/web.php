@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BoutiqueController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GalleryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BoutiqueController::class, 'index'])->name('accueil');
@@ -11,6 +12,8 @@ Route::get('/', [BoutiqueController::class, 'index'])->name('accueil');
 Route::get('/service', function () {
     return view('service');
 })->name('service');
+
+Route::get('/galerie', [GalleryController::class, 'index'])->name('galerie');
 
 // Route pour la page boutique
 Route::get('/boutique', [BoutiqueController::class, 'boutique'])->name('boutique');
@@ -23,6 +26,12 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 // Routes protégées pour la gestion des produits (réservées à l'admin)
 Route::middleware(['admin'])->group(function() {
     Route::resource('products', ProductController::class)->except(['show']);
+    
+    // Routes pour la gestion de la galerie
+    Route::get('/admin/gallery', [GalleryController::class, 'manage'])->name('gallery.manage');
+    Route::post('/admin/gallery', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::put('/admin/gallery/{image}', [GalleryController::class, 'update'])->name('gallery.update');
+    Route::delete('/admin/gallery/{image}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 });
 
 // Route publique pour voir un produit (sans protection)

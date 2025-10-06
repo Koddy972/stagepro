@@ -403,6 +403,7 @@
                         <li><a href="{{ route('accueil') }}">Accueil</a></li>
                         <li><a href="{{ route('accueil') }}#services">Services</a></li>
                         <li><a href="{{ route('boutique') }}">Boutique</a></li>
+                        <li><a href="{{ route('galerie') }}">Galerie</a></li>
                         <li><a href="{{ route('accueil') }}#about">À Propos</a></li>
                         <li><a href="{{ route('accueil') }}#contact">Contact</a></li>
                         
