@@ -459,10 +459,14 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Script de navigation -->
+    <script src="{{ asset('js/navigation.js') }}"></script>
+    
     <!-- Script pour mettre à jour le compteur du panier -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             updateCartCount();
+            handleAnchorNavigation();
         });
 
         function updateCartCount() {
@@ -495,6 +499,27 @@
                     alert.remove();
                 }
             }, 5000);
+        }
+
+        // Gérer la navigation vers les ancres depuis n'importe quelle page
+        function handleAnchorNavigation() {
+            // Si on arrive sur la page avec une ancre dans l'URL
+            if (window.location.hash) {
+                setTimeout(function() {
+                    const targetId = window.location.hash;
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetSection.offsetTop - headerHeight - 20;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 100);
+            }
         }
 
         // Rendre les fonctions globales pour les autres scripts
