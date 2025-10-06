@@ -1,0 +1,85 @@
+ espacement fixes */
+nav ul {
+    gap: 35px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+nav ul li a {
+    font-size: 0.95rem !important;
+    padding: 8px 0 !important;
+    line-height: 1.5 !important;
+}
+
+/* Animation de soulignement - timing fixe */
+nav ul li a:after {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    opacity: 0 !important;
+}
+
+nav ul li a:hover:after {
+    opacity: 1 !important;
+}
+
+nav ul li a.active:after {
+    opacity: 1 !important;
+}
+
+/* Boutons - tailles fixes */
+.cart-icon a,
+.admin-btn {
+    padding: 10px 15px !important;
+    font-size: 0.95rem !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+}
+
+/* Animations de hover - timing uniforme */
+.cart-icon a,
+.admin-btn,
+nav ul li a,
+.header-contact a,
+.social-links a {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Badge du panier - taille fixe */
+.cart-count {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 0.75rem !important;
+    line-height: 20px !important;
+}
+
+/* Responsive mobile - proportions adaptées */
+@media (max-width: 768px) {
+    .main-header {
+        min-height: auto !important;
+        padding: 20px 0 !important;
+    }
+    
+    .logo-icon {
+        width: 70px !important;
+        height: 70px !important;
+        min-width: 70px !important;
+        min-height: 70px !important;
+    }
+    
+    .logo-main {
+        font-size: 1.8rem !important;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.85rem !important;
+    }
+    
+    nav ul {
+        gap: 15px !important;
+    }
+    
+    nav ul li a {
+        font-size: 0.9rem !important;
+    }
+}

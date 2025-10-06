@@ -15,6 +15,12 @@
     <!-- Bootstrap CSS (optionnel) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
+    <!-- Styles fixes de la navbar - Chargé en priorité -->
+    <link rel="stylesheet" href="{{ asset('css/navbar-fixed.css') }}">
+    
+    <!-- Animations des boutons hero -->
+    <link rel="stylesheet" href="{{ asset('css/hero-buttons.css') }}">
+    
     <style>
         :root {
             --dark-blue: #0d2f4f;
@@ -39,6 +45,17 @@
             scroll-padding-top: 120px;
         }
         
+        /* Protection des styles de navigation - Ne peut pas être surchargé */
+        header, header *, 
+        .header-top, .header-top *, 
+        .main-header, .main-header *,
+        nav, nav *, 
+        .logo, .logo *,
+        .cart-icon, .cart-icon *,
+        .admin-btn {
+            box-sizing: border-box !important;
+        }
+        
         body {
             background-color: var(--light-gray);
             color: var(--text-gray);
@@ -53,211 +70,235 @@
             padding: 0 20px;
         }
 
-        /* Header professionnel */
+        /* Header professionnel - Proportions fixes */
         header {
-            background: var(--white);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: var(--white) !important;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08) !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+            width: 100% !important;
         }
         
         .header-top {
-            background: var(--dark-blue);
-            padding: 8px 0;
-            font-size: 0.85rem;
+            background: var(--dark-blue) !important;
+            padding: 8px 0 !important;
+            font-size: 0.85rem !important;
         }
         
         .header-top-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100% !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 0 20px !important;
         }
         
         .header-contact {
-            display: flex;
-            gap: 25px;
+            display: flex !important;
+            gap: 25px !important;
         }
         
         .header-contact a {
-            color: var(--white);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: opacity 0.3s;
+            color: var(--white) !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            transition: opacity 0.3s ease !important;
+            font-size: 0.85rem !important;
         }        
         .header-contact a:hover {
-            opacity: 0.85;
+            opacity: 0.85 !important;
         }
         
         .header-contact i {
-            color: var(--gold);
+            color: var(--gold) !important;
+            font-size: 0.85rem !important;
         }
         
         .social-links {
-            display: flex;
-            gap: 15px;
+            display: flex !important;
+            gap: 15px !important;
         }
         
         .social-links a {
-            color: var(--white);
-            text-decoration: none;
-            transition: color 0.3s;
+            color: var(--white) !important;
+            text-decoration: none !important;
+            transition: color 0.3s ease !important;
+            font-size: 1rem !important;
         }
         
         .social-links a:hover {
-            color: var(--gold);
+            color: var(--gold) !important;
         }
         
         .main-header {
-            padding: 15px 0;
+            padding: 15px 0 !important;
         }
         
         .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100% !important;
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 0 20px !important;
         }
         
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
+            display: flex !important;
+            align-items: center !important;
+            gap: 15px !important;
+            text-decoration: none !important;
         }        
         .logo-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold);
-            font-size: 2.5rem;
-            background: transparent;
+            width: 80px !important;
+            height: 80px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: var(--gold) !important;
+            font-size: 2.5rem !important;
+            background: transparent !important;
+            flex-shrink: 0 !important;
         }
         
         .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain !important;
         }
 
         .logo-text {
-            display: flex;
-            flex-direction: column;
+            display: flex !important;
+            flex-direction: column !important;
         }
         
         .logo-main {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--dark-blue);
-            line-height: 1.1;
+            font-family: 'Playfair Display', serif !important;
+            font-size: 2.2rem !important;
+            font-weight: 700 !important;
+            color: var(--dark-blue) !important;
+            line-height: 1.1 !important;
         }
         
         .logo-subtitle {
-            font-size: 0.95rem;
-            color: var(--gold);
-            font-weight: 500;
-            letter-spacing: 1px;
-            margin-top: 3px;
+            font-size: 0.95rem !important;
+            color: var(--gold) !important;
+            font-weight: 500 !important;
+            letter-spacing: 1px !important;
+            margin-top: 3px !important;
         }        
         nav ul {
-            display: flex;
-            list-style: none;
-            gap: 35px;
-            align-items: center;
+            display: flex !important;
+            list-style: none !important;
+            gap: 35px !important;
+            align-items: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        nav ul li {
+            margin: 0 !important;
+            padding: 0 !important;
         }
         
         nav ul li a {
-            color: var(--dark-blue);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-            position: relative;
-            padding: 8px 0;
+            color: var(--dark-blue) !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            font-size: 0.95rem !important;
+            transition: color 0.3s ease !important;
+            position: relative !important;
+            padding: 8px 0 !important;
+            display: inline-block !important;
         }
         
         nav ul li a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--gold);
-            transition: width 0.3s ease;
+            content: '' !important;
+            position: absolute !important;
+            width: 0 !important;
+            height: 2px !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            background-color: var(--gold) !important;
+            transition: width 0.3s ease !important;
+            opacity: 0 !important;
         }
         
         nav ul li a:hover {
-            color: var(--gold);
+            color: var(--gold) !important;
         }
         
         nav ul li a:hover:after {
-            width: 100%;
+            width: 100% !important;
+            opacity: 1 !important;
         }
         
         nav ul li a.active {
-            color: var(--gold);
+            color: var(--gold) !important;
         }
         
         nav ul li a.active:after {
-            width: 100%;
+            width: 100% !important;
+            opacity: 1 !important;
         }        
-        /* Styles pour le panier dans le header */
+        /* Styles pour le panier dans le header - Proportions fixes */
         .cart-icon {
-            position: relative;
-            display: inline-block;
-            margin-left: 20px;
+            position: relative !important;
+            display: inline-block !important;
+            margin-left: 20px !important;
         }
         
         .cart-icon a {
-            background-color: var(--gold);
+            background-color: var(--gold) !important;
             color: var(--dark-blue) !important;
             padding: 10px 15px !important;
-            border-radius: 4px;
+            border-radius: 4px !important;
             font-weight: 600 !important;
-            transition: all 0.3s !important;
+            transition: all 0.3s ease !important;
             text-decoration: none !important;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
         }
         
         .cart-icon a:hover {
             background-color: var(--dark-blue) !important;
             color: var(--gold) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
         }
         
         .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #dc3545;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
+            position: absolute !important;
+            top: -5px !important;
+            right: -5px !important;
+            background-color: #dc3545 !important;
+            color: white !important;
+            border-radius: 50% !important;
+            width: 20px !important;
+            height: 20px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 0.75rem !important;
+            font-weight: bold !important;
         }
         
-        /* Styles pour le bouton admin */
+        /* Styles pour le bouton admin - Proportions fixes */
         .admin-btn {
             background-color: var(--dark-blue) !important;
             color: var(--white) !important;
             padding: 10px 15px !important;
             border-radius: 4px !important;
             font-weight: 600 !important;
-            transition: all 0.3s !important;
+            transition: all 0.3s ease !important;
             text-decoration: none !important;
             display: flex !important;
             align-items: center !important;
@@ -267,26 +308,26 @@
         .admin-btn:hover {
             background-color: var(--gold) !important;
             color: var(--dark-blue) !important;
-            transform: translateY(-2px);
+            transform: translateY(-2px) !important;
         }
         
         .logout-form {
-            display: inline;
+            display: inline !important;
         }
         
         .logout-form button {
-            background: none;
-            border: none;
-            color: var(--dark-blue);
-            font: inherit;
-            cursor: pointer;
-            padding: 0;
-            font-weight: 500;
-            transition: color 0.3s;
+            background: none !important;
+            border: none !important;
+            color: var(--dark-blue) !important;
+            font: inherit !important;
+            cursor: pointer !important;
+            padding: 0 !important;
+            font-weight: 500 !important;
+            transition: color 0.3s ease !important;
         }
         
         .logout-form button:hover {
-            color: var(--gold);
+            color: var(--gold) !important;
         }
         
         /* Styles utilitaires */
@@ -336,28 +377,41 @@
             color: var(--white);
         }
         
-        /* Mobile responsive */
+        /* Mobile responsive - Maintien des proportions */
         @media (max-width: 768px) {
             .header-top-container {
-                flex-direction: column;
-                gap: 10px;
+                flex-direction: column !important;
+                gap: 10px !important;
             }
             
             .header-content {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
+                flex-direction: column !important;
+                gap: 20px !important;
+                text-align: center !important;
+            }
+            
+            .logo-icon {
+                width: 70px !important;
+                height: 70px !important;
+            }
+            
+            .logo-main {
+                font-size: 1.8rem !important;
+            }
+            
+            .logo-subtitle {
+                font-size: 0.85rem !important;
             }
             
             nav ul {
-                flex-direction: column;
-                gap: 15px;
-                margin-top: 20px;
+                flex-direction: column !important;
+                gap: 15px !important;
+                margin-top: 20px !important;
             }
             
             .cart-icon {
-                margin-left: 0;
-                margin-top: 10px;
+                margin-left: 0 !important;
+                margin-top: 10px !important;
             }
         }    </style>
 
@@ -459,6 +513,9 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Script de protection de la navbar - Chargé en priorité -->
+    <script src="{{ asset('js/navbar-protection.js') }}"></script>
+    
     <!-- Script de navigation -->
     <script src="{{ asset('js/navigation.js') }}"></script>
     
@@ -525,6 +582,57 @@
         // Rendre les fonctions globales pour les autres scripts
         window.updateCartCount = updateCartCount;
         window.showNotification = showNotification;
+        
+        // Gestion du lien actif dans la navigation
+        function setActiveNavLink() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('nav ul li a:not(.admin-btn):not(.cart-icon a)');
+            
+            // Retire la classe active de tous les liens
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Ajoute la classe active au lien correspondant
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                
+                // Ignore les liens avec ancres pour la page actuelle
+                if (linkHref && linkHref.includes('#')) {
+                    const linkPath = linkHref.split('#')[0];
+                    // Si c'est un lien ancre vers la page actuelle
+                    if (linkPath === '' || linkPath === currentPath || linkPath.endsWith('accueil')) {
+                        if (currentPath === '/' || currentPath === '/accueil' || currentPath.includes('accueil')) {
+                            // Active seulement "Accueil" ou le lien ancre si on est sur la section
+                            if (window.location.hash && linkHref.includes(window.location.hash)) {
+                                link.classList.add('active');
+                            } else if (!window.location.hash && link.textContent.trim() === 'Accueil') {
+                                link.classList.add('active');
+                            }
+                        }
+                    }
+                } else {
+                    // Pour les liens normaux
+                    const linkURL = new URL(link.href, window.location.origin);
+                    const linkPath = linkURL.pathname;
+                    
+                    // Active le lien si le chemin correspond
+                    if (linkPath === currentPath) {
+                        link.classList.add('active');
+                    } else if (currentPath === '/' && linkPath.includes('accueil')) {
+                        link.classList.add('active');
+                    } else if (linkPath !== '/' && currentPath.includes(linkPath) && linkPath.length > 1) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+        }
+        
+        // Appeler au chargement
+        setActiveNavLink();
+        
+        // Mettre à jour si l'URL change (navigation avec ancres)
+        window.addEventListener('hashchange', setActiveNavLink);
     </script>
     
     @stack('scripts')

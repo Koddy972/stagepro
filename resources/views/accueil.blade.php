@@ -17,8 +17,10 @@
     }
     
     .hero img {
-        width: 100%;
-        height: 70vh;
+        width: 100vw;
+        min-width: 100vw;
+        max-width: 100vw;
+        height: 86vh;
         object-fit: cover;
         display: block;
         position: absolute;
@@ -36,6 +38,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        text-align: center; /* Ajouté pour centrer tout le contenu */
+        left: 0;
+        right: 0;
+        margin: 0 auto;
     }
     
     .hero h1 {
@@ -57,16 +63,20 @@
         font-weight: 300;
     }
     
-    .btn-light {
-        background-color: transparent;
-        color: var(--white);
-        border: 1px solid var(--white);
-        margin-left: 15px;
+    .btn {
+        background-color: #e84e9b;
+        color: #fff;
+        border: none;
+        transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+        box-shadow: 0 2px 8px rgba(232, 78, 155, 0.08);
     }
     
-    .btn-light:hover {
-        background-color: var(--white);
-        color: var(--dark-blue);
+    .btn:hover,
+    .btn:focus {
+        background-color: #fff;
+        color: #e84e9b;
+        box-shadow: 0 6px 24px rgba(232, 78, 155, 0.18);
+        border: 1px solid #e84e9b;
     }
 
     /* Services section */
@@ -242,9 +252,13 @@
     <div class="hero-content">
         <h1>Expert en Confection & Réparation de Voiles</h1>
         <p>Spécialistes en fabrication et réparation de voiles, bâches, biminis et capitonnage pour auto, moto, bateau et ameublement</p>
-        <div style="text-align:center;">
-            <a href="#contact" class="btn">Demander un devis</a>
-            <a href="#services" class="btn btn-light">Découvrir nos services</a>
+        <div style="text-align:center; display:flex; gap:18px; justify-content:center;">
+            <a href="#contact" class="btn" style="background-color:#e84e9b; color:#fff; border:none;">
+                Demander un devis
+            </a>
+            <a href="#services" class="btn btn-light">
+                Découvrir nos services
+            </a>
         </div>
     </div>
 </section>

@@ -1,0 +1,90 @@
+/* ================================================
+   ANIMATIONS BOUTONS HERO
+   ================================================ */
+
+/* Animation de pulsation pour le bouton "Demander un devis" */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(232, 78, 155, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(232, 78, 155, 0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(232, 78, 155, 0.5), 0 0 0 0 rgba(232, 78, 155, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(232, 78, 155, 0.8), 0 0 0 15px rgba(232, 78, 155, 0);
+  }
+}
+
+/* Style pour le bouton "Demander un devis" avec animation */
+.hero-content .btn[href="#contact"] {
+  position: relative;
+  animation: pulseGlow 2s infinite;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Effet de vague au hover */
+.hero-content .btn[href="#contact"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+  z-index: -1;
+}
+
+.hero-content .btn[href="#contact"]:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.hero-content .btn[href="#contact"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 25px rgba(232, 78, 155, 0.6);
+  animation: none; /* Arrête la pulsation au hover */
+}
+
+/* Style pour le bouton transparent "Découvrir nos services" */
+.hero-content .btn-light {
+  background-color: transparent !important;
+  border: 2px solid #fff !important;
+  color: #fff !important;
+  transition: all 0.3s ease !important;
+}
+
+.hero-content .btn-light:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-content .btn[href="#contact"],
+  .hero-content .btn-light {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 15px rgba(232, 78, 155, 0.5), 0 0 0 0 rgba(232, 78, 155, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(232, 78, 155, 0.8), 0 0 0 10px rgba(232, 78, 155, 0);
+    }
+  }
+}
