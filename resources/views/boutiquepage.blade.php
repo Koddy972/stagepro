@@ -146,7 +146,7 @@
                                 <div class="price-action">
                                     <div class="product-price">€{{ number_format($product->price, 2) }}</div>
                                     <a href="{{ route('products.show', $product) }}" class="product-btn" onclick="event.stopPropagation();">
-                                        Voir le produit <i class="fas fa-arrow-right"></i>
+                                        Voir le produit
                                     </a>
                                 </div>
                             </div>
