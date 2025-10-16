@@ -391,3 +391,66 @@
                         <button class="btn-edit" onclick="openEditModal({{ $image->id }})">
                             <i class="fas fa-edit"></i> Modifier
                         </button>
+
+                        <button class="btn-delete" onclick="deleteImage({{ $image->id }})">
+                            <i class="fas fa-trash"></i> Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-images"></i>
+                <p>Aucune image dans la galerie</p>
+            </div>
+        @endforelse
+    </div>
+</div>
+
+<script>
+function toggleAddForm() {
+    const form = document.getElementById('addImageForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+function previewImage(event) {
+    const preview = document.getElementById('imagePreview');
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+function deleteImage(id) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) {
+        fetch(`/admin/gallery/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Erreur lors de la suppression');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de la suppression');
+        });
+    }
+}
+
+</script>
+
+@endsection

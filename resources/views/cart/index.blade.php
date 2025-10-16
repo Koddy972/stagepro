@@ -433,21 +433,33 @@
 
                 <div class="cart-summary">
                     <h3>Résumé de la commande</h3>
+                    <div class="alert alert-info" style="margin-bottom: 20px; padding: 12px; background-color: #e8f4f8; border-left: 4px solid #0d2f4f; color: #0c5460; border-radius: 4px;">
+                        <i class="fas fa-store"></i> <strong>Retrait en magasin uniquement</strong><br>
+                        <small>Les commandes sont à retirer à notre atelier.</small>
+                    </div>
                     <div class="summary-row">
                         <div class="summary-label">Sous-total</div>
                         <div class="summary-value" id="cart-subtotal">{{ number_format($total, 2, ',', ' ') }}€</div>
                     </div>
                     <div class="summary-row">
-                        <div class="summary-label">Livraison</div>
-                        <div class="summary-value">Gratuite</div>
-                    </div>
-                    <div class="summary-row">
                         <div class="summary-label">Total</div>
                         <div class="summary-value" id="cart-total">{{ number_format($total, 2, ',', ' ') }}€</div>
                     </div>
-                    <button class="btn-checkout" type="button">
-                        <i class="fas fa-credit-card"></i> Procéder au paiement
-                    </button>
+                    @auth
+                        <a href="{{ route('cart.checkout') }}" class="btn-checkout">
+                            <i class="fas fa-credit-card"></i> Procéder au paiement
+                        </a>
+                    @else
+                        <a href="{{ route('client.login') }}" class="btn-checkout">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter pour payer
+                        </a>
+                        <p style="text-align: center; margin-top: 15px; color: #5c5c5c; font-size: 0.9rem;">
+                            Pas encore de compte ? 
+                            <a href="{{ route('client.register') }}" style="color: #de419a; font-weight: 600; text-decoration: none;">
+                                Créer un compte
+                            </a>
+                        </p>
+                    @endauth
                     <a href="{{ route('accueil') }}#boutique" class="btn-shop">
                         <i class="fas fa-arrow-left"></i> Continuer mes achats
                     </a>

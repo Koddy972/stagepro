@@ -11,6 +11,7 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'category_id',
         'category',
         'description',
         'features',
@@ -24,4 +25,10 @@ class Product extends Model
         'in_stock' => 'boolean',
         'features' => 'array'
     ];
+
+    // Relation avec la catégorie
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

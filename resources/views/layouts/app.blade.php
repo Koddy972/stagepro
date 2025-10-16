@@ -136,7 +136,7 @@
         }
         
         .main-header {
-            padding: 15px 0 !important;
+            padding: 12px 0 !important;
         }
         
         .header-content {
@@ -147,6 +147,7 @@
             max-width: 1200px !important;
             margin: 0 auto !important;
             padding: 0 20px !important;
+            overflow: visible !important;
         }
         
         .logo {
@@ -156,14 +157,14 @@
             text-decoration: none !important;
         }        
         .logo-icon {
-            width: 80px !important;
-            height: 80px !important;
+            width: 65px !important;
+            height: 65px !important;
             border-radius: 50% !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             color: var(--gold) !important;
-            font-size: 2.5rem !important;
+            font-size: 2rem !important;
             background: transparent !important;
             flex-shrink: 0 !important;
         }
@@ -177,35 +178,43 @@
         .logo-text {
             display: flex !important;
             flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 5px !important;
         }
         
         .logo-main {
             font-family: 'Playfair Display', serif !important;
-            font-size: 2.2rem !important;
+            font-size: 1.5rem !important;
             font-weight: 700 !important;
             color: var(--dark-blue) !important;
-            line-height: 1.1 !important;
+            line-height: 1 !important;
+            white-space: nowrap !important;
         }
         
         .logo-subtitle {
-            font-size: 0.95rem !important;
+            font-size: 0.75rem !important;
             color: var(--gold) !important;
             font-weight: 500 !important;
-            letter-spacing: 1px !important;
-            margin-top: 3px !important;
+            letter-spacing: 0.5px !important;
+            white-space: nowrap !important;
+            border-left: 2px solid var(--gold) !important;
+            padding-left: 10px !important;
         }        
         nav ul {
             display: flex !important;
             list-style: none !important;
-            gap: 35px !important;
+            gap: 25px !important;
             align-items: center !important;
             margin: 0 !important;
             padding: 0 !important;
+            overflow: visible !important;
         }
         
         nav ul li {
             margin: 0 !important;
             padding: 0 !important;
+            position: relative !important;
+            overflow: visible !important;
         }
         
         nav ul li a {
@@ -217,6 +226,7 @@
             position: relative !important;
             padding: 8px 0 !important;
             display: inline-block !important;
+            white-space: nowrap !important;
         }
         
         nav ul li a:after {
@@ -247,72 +257,342 @@
         nav ul li a.active:after {
             width: 100% !important;
             opacity: 1 !important;
+        }
+        
+        /* Désactiver la ligne de soulignement pour les boutons spéciaux */
+        .cart-icon a:after,
+        .client-login-btn:after,
+        .client-account-btn:after,
+        .admin-btn:after,
+        .client-dropdown-menu a:after,
+        .client-dropdown-menu button:after {
+            display: none !important;
         }        
-        /* Styles pour le panier dans le header - Proportions fixes */
+        /* Styles pour le panier dans le header - Design moderne */
         .cart-icon {
             position: relative !important;
             display: inline-block !important;
             margin-left: 20px !important;
+            overflow: visible !important;
         }
         
         .cart-icon a {
-            background-color: var(--gold) !important;
-            color: var(--dark-blue) !important;
-            padding: 10px 15px !important;
-            border-radius: 4px !important;
+            background: linear-gradient(135deg, var(--gold) 0%, #c73584 100%) !important;
+            color: var(--white) !important;
+            padding: 10px 20px !important;
+            border-radius: 25px !important;
             font-weight: 600 !important;
+            font-size: 0.9rem !important;
             transition: all 0.3s ease !important;
             text-decoration: none !important;
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
+            box-shadow: 0 2px 8px rgba(222, 65, 154, 0.3) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        .cart-icon a:before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -100% !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent) !important;
+            transition: left 0.5s ease !important;
+            z-index: 1 !important;
+        }
+        
+        .cart-icon a:hover:before {
+            left: 100% !important;
+        }
+        
+        .cart-icon a span,
+        .cart-icon a i {
+            position: relative !important;
+            z-index: 2 !important;
         }
         
         .cart-icon a:hover {
-            background-color: var(--dark-blue) !important;
-            color: var(--gold) !important;
+            background: linear-gradient(135deg, #c73584 0%, var(--dark-blue) 100%) !important;
+            color: var(--white) !important;
             transform: translateY(-2px) !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 0 4px 15px rgba(222, 65, 154, 0.4) !important;
+        }
+        
+        .cart-icon a i {
+            transition: transform 0.3s ease !important;
+        }
+        
+        .cart-icon a:hover i {
+            transform: scale(1.1) !important;
         }
         
         .cart-count {
             position: absolute !important;
-            top: -5px !important;
-            right: -5px !important;
-            background-color: #dc3545 !important;
+            top: -8px !important;
+            right: -10px !important;
+            background-color: #ff0000 !important;
             color: white !important;
             border-radius: 50% !important;
-            width: 20px !important;
-            height: 20px !important;
+            min-width: 22px !important;
+            height: 22px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             font-size: 0.75rem !important;
-            font-weight: bold !important;
+            font-weight: 700 !important;
+            padding: 0 5px !important;
+            border: 2px solid white !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+            z-index: 10 !important;
         }
         
-        /* Styles pour le bouton admin - Proportions fixes */
+        /* Styles pour le bouton admin - Design moderne */
         .admin-btn {
-            background-color: var(--dark-blue) !important;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%) !important;
             color: var(--white) !important;
-            padding: 10px 15px !important;
-            border-radius: 4px !important;
+            padding: 10px 20px !important;
+            border-radius: 25px !important;
             font-weight: 600 !important;
+            font-size: 0.9rem !important;
             transition: all 0.3s ease !important;
             text-decoration: none !important;
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
+            box-shadow: 0 2px 8px rgba(13, 47, 79, 0.3) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        .admin-btn:before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -100% !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%) !important;
+            transition: left 0.5s ease !important;
+        }
+        
+        .admin-btn:hover:before {
+            left: 100% !important;
         }
         
         .admin-btn:hover {
-            background-color: var(--gold) !important;
-            color: var(--dark-blue) !important;
+            background: linear-gradient(135deg, var(--gold) 0%, #c73584 100%) !important;
+            color: var(--white) !important;
             transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(222, 65, 154, 0.4) !important;
+        }
+        
+        .admin-btn i {
+            transition: transform 0.3s ease !important;
+        }
+        
+        .admin-btn:hover i {
+            transform: scale(1.1) !important;
+        }
+        
+        /* Styles pour les boutons client - Design moderne et élégant */
+        .client-login-btn {
+            background: linear-gradient(135deg, var(--gold) 0%, #c73584 100%) !important;
+            color: var(--white) !important;
+            padding: 10px 20px !important;
+            border-radius: 25px !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            transition: all 0.3s ease !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            box-shadow: 0 2px 8px rgba(222, 65, 154, 0.3) !important;
+            border: none !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        .client-login-btn:before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -100% !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent) !important;
+            transition: left 0.5s ease !important;
+            z-index: 1 !important;
+        }
+        
+        .client-login-btn:hover:before {
+            left: 100% !important;
+        }
+        
+        .client-login-btn span,
+        .client-login-btn i {
+            position: relative !important;
+            z-index: 2 !important;
+        }
+        
+        .client-login-btn:hover {
+            background: linear-gradient(135deg, #c73584 0%, var(--dark-blue) 100%) !important;
+            color: var(--white) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(222, 65, 154, 0.4) !important;
+        }
+        
+        .client-login-btn i {
+            font-size: 1rem !important;
+            transition: transform 0.3s ease !important;
+        }
+        
+        .client-login-btn:hover i {
+            transform: scale(1.1) !important;
+        }
+        
+        .client-account-btn {
+            background: linear-gradient(135deg, rgba(222, 65, 154, 0.1) 0%, rgba(199, 53, 132, 0.1) 100%) !important;
+            color: var(--dark-blue) !important;
+            padding: 10px 18px !important;
+            border-radius: 25px !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            transition: all 0.3s ease !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            border: 2px solid var(--gold) !important;
+            cursor: pointer !important;
+            box-shadow: 0 2px 8px rgba(222, 65, 154, 0.2) !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        
+        .client-account-btn:before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -100% !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent) !important;
+            transition: left 0.5s ease !important;
+            z-index: 1 !important;
+        }
+        
+        .client-account-btn:hover:before {
+            left: 100% !important;
+        }
+        
+        .client-account-btn span,
+        .client-account-btn i {
+            position: relative !important;
+            z-index: 2 !important;
+        }
+        
+        .client-account-btn i {
+            font-size: 1rem !important;
+            color: var(--gold) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .client-account-btn:hover {
+            background: linear-gradient(135deg, var(--gold) 0%, #c73584 100%) !important;
+            color: var(--white) !important;
+            border-color: var(--gold) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(222, 65, 154, 0.3) !important;
+        }
+        
+        .client-account-btn:hover i {
+            color: var(--white) !important;
+            transform: scale(1.1) !important;
+        }
+        
+        /* Menu déroulant du profil client */
+        .client-dropdown {
+            position: relative !important;
+        }
+        
+        .client-dropdown-menu {
+            position: absolute !important;
+            top: 100% !important;
+            right: 0 !important;
+            margin-top: 10px !important;
+            background: var(--white) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+            min-width: 200px !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: translateY(-10px) !important;
+            transition: all 0.3s ease !important;
+            z-index: 1000 !important;
+            padding: 10px 0 !important;
+        }
+        
+        .client-dropdown-menu.show {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+        
+        .client-dropdown-menu::before {
+            content: '' !important;
+            position: absolute !important;
+            top: -8px !important;
+            right: 20px !important;
+            width: 0 !important;
+            height: 0 !important;
+            border-left: 8px solid transparent !important;
+            border-right: 8px solid transparent !important;
+            border-bottom: 8px solid var(--white) !important;
+        }
+        
+        .client-dropdown-menu a,
+        .client-dropdown-menu button {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 12px 20px !important;
+            color: var(--dark-blue) !important;
+            text-decoration: none !important;
+            transition: background-color 0.3s ease !important;
+            width: 100% !important;
+            text-align: left !important;
+            border: none !important;
+            background: transparent !important;
+            font-size: 0.9rem !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+        }
+        
+        .client-dropdown-menu a:hover,
+        .client-dropdown-menu button:hover {
+            background-color: var(--light-blue) !important;
+        }
+        
+        .client-dropdown-menu i {
+            color: var(--gold) !important;
+            font-size: 1rem !important;
+            width: 20px !important;
+        }
+        
+        .client-dropdown-menu .divider {
+            height: 1px !important;
+            background-color: #e0e0e0 !important;
+            margin: 5px 0 !important;
         }
         
         .logout-form {
             display: inline !important;
+            margin: 0 !important;
         }
         
         .logout-form button {
@@ -321,9 +601,17 @@
             color: var(--dark-blue) !important;
             font: inherit !important;
             cursor: pointer !important;
-            padding: 0 !important;
+            padding: 8px 0 !important;
             font-weight: 500 !important;
+            font-size: 0.95rem !important;
             transition: color 0.3s ease !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        
+        .logout-form button i {
+            font-size: 0.9rem !important;
         }
         
         .logout-form button:hover {
@@ -373,8 +661,30 @@
             text-align: center;
         }
         
+        .footer-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
         .footer-logo .logo-main {
             color: var(--white);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        
+        .footer-logo .logo-subtitle {
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            border-left: 2px solid var(--gold);
+            padding-left: 12px;
         }
         
         /* Mobile responsive - Maintien des proportions */
@@ -390,17 +700,28 @@
                 text-align: center !important;
             }
             
+            .logo {
+                flex-direction: column !important;
+            }
+            
+            .logo-text {
+                flex-direction: column !important;
+                gap: 3px !important;
+            }
+            
             .logo-icon {
                 width: 70px !important;
                 height: 70px !important;
             }
             
             .logo-main {
-                font-size: 1.8rem !important;
+                font-size: 1.3rem !important;
             }
             
             .logo-subtitle {
-                font-size: 0.85rem !important;
+                font-size: 0.7rem !important;
+                border-left: none !important;
+                padding-left: 0 !important;
             }
             
             nav ul {
@@ -413,7 +734,44 @@
                 margin-left: 0 !important;
                 margin-top: 10px !important;
             }
-        }    </style>
+            
+            /* Footer responsive */
+            .footer-logo {
+                flex-direction: column !important;
+                gap: 5px !important;
+            }
+            
+            .footer-logo .logo-main {
+                font-size: 1.3rem !important;
+            }
+            
+            .footer-logo .logo-subtitle {
+                font-size: 0.7rem !important;
+                border-left: none !important;
+                padding-left: 0 !important;
+            }
+        }
+        
+        /* Ajustements pour navbar avec utilisateur connecté */
+        @media (max-width: 1200px) {
+            nav ul {
+                gap: 18px !important;
+            }
+            
+            nav ul li a {
+                font-size: 0.9rem !important;
+            }
+            
+            .client-account-btn {
+                padding: 6px 10px !important;
+                font-size: 0.85rem !important;
+            }
+            
+            .logout-form button {
+                font-size: 0.9rem !important;
+            }
+        }
+    </style>
 
     @stack('styles')
 </head>
@@ -479,6 +837,39 @@
                             </li>
                         @endif
                         
+                        @auth
+                            @if(Auth::user()->isClient())
+                                <li class="client-dropdown">
+                                    <a href="#" class="client-account-btn" id="clientDropdownBtn">
+                                        <i class="fas fa-user-circle"></i>
+                                        {{ explode(' ', Auth::user()->name)[0] }}
+                                        <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                                    </a>
+                                    <div class="client-dropdown-menu" id="clientDropdownMenu">
+                                        <a href="{{ route('my.orders') }}">
+                                            <i class="fas fa-shopping-bag"></i>
+                                            Mes commandes
+                                        </a>
+                                        <div class="divider"></div>
+                                        <form action="{{ route('client.logout') }}" method="POST" style="margin: 0;">
+                                            @csrf
+                                            <button type="submit">
+                                                <i class="fas fa-sign-out-alt"></i>
+                                                Déconnexion
+                                            </button>
+                                        </form>
+                                    </div>
+                                </li>
+                            @endif
+                        @else
+                            <li>
+                                <a href="{{ route('client.login') }}" class="client-login-btn">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Connexion
+                                </a>
+                            </li>
+                        @endauth
+                        
                         <li class="cart-icon">
                             <a href="{{ route('cart.index') }}">
                                 <i class="fas fa-shopping-cart"></i>
@@ -534,7 +925,8 @@
                     const cartCountElement = document.getElementById('cart-count');
                     if (cartCountElement) {
                         cartCountElement.textContent = count;
-                        cartCountElement.style.display = count > 0 ? 'flex' : 'none';
+                        // Toujours afficher le badge, même quand c'est 0
+                        cartCountElement.style.display = 'flex';
                     }
                 })
                 .catch(error => console.error('Erreur lors de la mise à jour du compteur:', error));
@@ -633,6 +1025,31 @@
         
         // Mettre à jour si l'URL change (navigation avec ancres)
         window.addEventListener('hashchange', setActiveNavLink);
+        
+        // Gestion du menu déroulant du profil client
+        const clientDropdownBtn = document.getElementById('clientDropdownBtn');
+        const clientDropdownMenu = document.getElementById('clientDropdownMenu');
+        
+        if (clientDropdownBtn && clientDropdownMenu) {
+            // Toggle menu au clic sur le bouton
+            clientDropdownBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                clientDropdownMenu.classList.toggle('show');
+            });
+            
+            // Fermer le menu si on clique ailleurs
+            document.addEventListener('click', function(e) {
+                if (!clientDropdownBtn.contains(e.target) && !clientDropdownMenu.contains(e.target)) {
+                    clientDropdownMenu.classList.remove('show');
+                }
+            });
+            
+            // Empêcher la fermeture si on clique dans le menu
+            clientDropdownMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
     </script>
     
     @stack('scripts')

@@ -5,6 +5,9 @@ use App\Http\Controllers\BoutiqueController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ClientAuthController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BoutiqueController::class, 'index'])->name('accueil');
@@ -27,6 +30,11 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 Route::middleware(['admin'])->group(function() {
     Route::resource('products', ProductController::class)->except(['show']);
     
+    // Routes pour la gestion des catégories
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    
     // Routes pour la gestion de la galerie
     Route::get('/admin/gallery', [GalleryController::class, 'manage'])->name('gallery.manage');
     Route::post('/admin/gallery', [GalleryController::class, 'store'])->name('gallery.store');
@@ -45,4 +53,27 @@ Route::prefix('cart')->name('cart.')->group(function() {
     Route::delete('/remove/{cartItem}', [CartController::class, 'remove'])->name('remove');
     Route::delete('/clear', [CartController::class, 'clear'])->name('clear');
     Route::get('/count', [CartController::class, 'getCartCount'])->name('count');
+});
+
+// Routes d'authentification client
+Route::get('/client/login', [ClientAuthController::class, 'showLoginForm'])->name('client.login');
+Route::post('/client/login', [ClientAuthController::class, 'login'])->name('client.login.post');
+Route::get('/client/register', [ClientAuthController::class, 'showRegisterForm'])->name('client.register');
+Route::post('/client/register', [ClientAuthController::class, 'register'])->name('client.register.post');
+Route::post('/client/logout', [ClientAuthController::class, 'logout'])->name('client.logout');
+
+// Routes protégées pour les clients
+Route::middleware(['client'])->group(function() {
+    Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/confirmation/{order}', [OrderController::class, 'confirmation'])->name('order.confirmation');
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('my.orders');
+    Route::get('/my-orders/{order}', [OrderController::class, 'show'])->name('order.show');
+});
+
+// Routes admin pour les commandes
+Route::middleware(['admin'])->group(function() {
+    Route::get('/admin/orders', [AdminController::class, 'showOrders'])->name('admin.orders');
+    Route::get('/admin/orders/{order}', [AdminController::class, 'showOrderDetails'])->name('admin.order.details');
+    Route::put('/admin/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.order.status');
 });

@@ -228,105 +228,23 @@
         
         <!-- Grille de la galerie -->
         <div class="galerie-grid" id="galerieGrid">
-            <!-- Voiles -->
-            <div class="galerie-item" data-category="voiles">
-                <img src="{{ asset('images/galerie/voile-1.jpg') }}" alt="Confection de voile">
-                <div class="galerie-overlay">
-                    <h3>Voile sur mesure</h3>
-                    <p>Confection complète d'une grand-voile</p>
+            @forelse($images as $image)
+                <div class="galerie-item" data-category="{{ $image->category }}">
+                    <img src="{{ asset($image->image_path) }}" alt="{{ $image->title }}">
+                    <div class="galerie-overlay">
+                        <h3>{{ $image->title }}</h3>
+                        @if($image->description)
+                            <p>{{ $image->description }}</p>
+                        @endif
+                    </div>
                 </div>
-            </div>
-            
-            <div class="galerie-item" data-category="voiles">
-                <img src="{{ asset('images/galerie/voile-2.jpg') }}" alt="Voile de bateau">
-                <div class="galerie-overlay">
-                    <h3>Génois haute performance</h3>
-                    <p>Voile d'avant pour régate</p>
+            @empty
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
+                    <i class="fas fa-images" style="font-size: 4rem; color: var(--medium-blue); margin-bottom: 20px;"></i>
+                    <h3 style="color: var(--dark-blue); margin-bottom: 10px;">Aucune image dans la galerie</h3>
+                    <p style="color: var(--text-gray);">Les images ajoutées apparaîtront ici</p>
                 </div>
-            </div>
-            
-            <div class="galerie-item" data-category="voiles">
-                <img src="{{ asset('images/galerie/voile-3.jpg') }}" alt="Réparation voile">
-                <div class="galerie-overlay">
-                    <h3>Spinnaker coloré</h3>
-                    <p>Voile légère pour vent arrière</p>
-                </div>
-            </div>
-            
-            <!-- Bâches -->
-            <div class="galerie-item" data-category="baches">
-                <img src="{{ asset('images/galerie/bache-1.jpg') }}" alt="Bâche de protection">
-                <div class="galerie-overlay">
-                    <h3>Bâche de protection bateau</h3>
-                    <p>Protection intégrale sur mesure</p>
-                </div>
-            </div>
-            
-            <div class="galerie-item" data-category="baches">
-                <img src="{{ asset('images/galerie/bache-2.jpg') }}" alt="Taud de soleil">
-                <div class="galerie-overlay">
-                    <h3>Taud de soleil</h3>
-                    <p>Protection contre les UV</p>
-                </div>
-            </div>
-            
-            <div class="galerie-item" data-category="baches">
-                <img src="{{ asset('images/galerie/bache-3.jpg') }}" alt="Capote de bateau">
-                <div class="galerie-overlay">
-                    <h3>Capote complète</h3>
-                    <p>Avec fenêtres et fermetures</p>
-                </div>
-            </div>
-            
-            <!-- Capitonnage -->
-            <div class="galerie-item" data-category="capitonnage">
-                <img src="{{ asset('images/galerie/capitonnage-1.jpg') }}" alt="Coussin de bateau">
-                <div class="galerie-overlay">
-                    <h3>Coussins de cockpit</h3>
-                    <p>Capitonnage confortable et résistant</p>
-                </div>
-            </div>
-            
-            <div class="galerie-item" data-category="capitonnage">
-                <img src="{{ asset('images/galerie/capitonnage-2.jpg') }}" alt="Sellerie marine">
-                <div class="galerie-overlay">
-                    <h3>Sellerie intérieure</h3>
-                    <p>Réfection complète de la cabine</p>
-                </div>
-            </div>
-            
-            <div class="galerie-item" data-category="capitonnage">
-                <img src="{{ asset('images/galerie/capitonnage-3.jpg') }}" alt="Matelas bateau">
-                <div class="galerie-overlay">
-                    <h3>Matelas sur mesure</h3>
-                    <p>Confort optimal en navigation</p>
-                </div>
-            </div>
-            
-            <!-- Réparations -->
-            <div class="galerie-item" data-category="reparation">
-                <img src="{{ asset('images/galerie/reparation-1.jpg') }}" alt="Réparation voile">
-                <div class="galerie-overlay">
-                    <h3>Réparation de voile</h3>
-                    <p>Réparation professionnelle et durable</p>
-                </div>
-            </div>
-            
-            <div class="galerie-item" data-category="reparation">
-                <img src="{{ asset('images/galerie/reparation-2.jpg') }}" alt="Couture marine">
-                <div class="galerie-overlay">
-                    <h3>Couture renforcée</h3>
-                    <p>Points de surpiqûre robustes</p>
-                </div>
-            </div>
-            
-            <div class="galerie-item" data-category="reparation">
-                <img src="{{ asset('images/galerie/reparation-3.jpg') }}" alt="Renfort voile">
-                <div class="galerie-overlay">
-                    <h3>Renforcement structure</h3>
-                    <p>Ajout de renforts aux zones sollicitées</p>
-                </div>
-            </div>
+            @endforelse
         </div>
     </div>
 </section>

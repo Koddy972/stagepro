@@ -112,4 +112,43 @@ class AdminController extends Controller
         
         return redirect()->route('accueil')->with('success', 'Déconnexion réussie!');
     }
+
+    /**
+     * Afficher les commandes des clients
+     */
+    public function showOrders()
+    {
+        $orders = \App\Models\Order::with(['user', 'items.product'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        return view('admin.orders', compact('orders'));
+    }
+
+    /**
+     * Voir les détails d'une commande
+     */
+    public function showOrderDetails($orderId)
+    {
+        $order = \App\Models\Order::with(['user', 'items.product'])
+            ->findOrFail($orderId);
+
+        return view('admin.order-details', compact('order'));
+    }
+
+    /**
+     * Mettre à jour le statut d'une commande
+     */
+    public function updateOrderStatus(Request $request, $orderId)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,processing,completed,cancelled'
+        ]);
+
+        $order = \App\Models\Order::findOrFail($orderId);
+        $order->update(['status' => $request->status]);
+
+        return back()->with('success', 'Statut de la commande mis à jour.');
+    }
 }
+    

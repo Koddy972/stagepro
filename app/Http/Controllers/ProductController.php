@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,8 +14,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+        $products = Product::with('category')->get();
+        $images = \App\Models\GalleryImage::orderBy('order')->get();
+        $categories = Category::where('is_active', true)->orderBy('order')->orderBy('name')->get();
+        return view('products.index', compact('products', 'images', 'categories'));
     }
 
     /**
@@ -22,7 +25,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::where('is_active', true)->orderBy('order')->orderBy('name')->get();
+        return view('products.create', compact('categories'));
     }
 
     /**
@@ -32,6 +36,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'in_stock' => 'boolean',
@@ -65,7 +70,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $categories = Category::where('is_active', true)->orderBy('order')->orderBy('name')->get();
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -75,6 +81,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'in_stock' => 'boolean',

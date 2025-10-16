@@ -174,4 +174,21 @@ class CartController extends Controller
                 }
             })->first();
     }
+    // Page de paiement (protégée par authentification)
+    public function checkout()
+    {
+        $cartItems = $this->getCartItems();
+        
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Votre panier est vide.');
+        }
+
+        $total = $cartItems->sum(function($item) {
+            return $item->subtotal;
+        });
+
+        return view('cart.checkout', compact('cartItems', 'total'));
+    }
+
 }
