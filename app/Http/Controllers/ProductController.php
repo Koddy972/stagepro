@@ -16,7 +16,8 @@ class ProductController extends Controller
     {
         $products = Product::with('category')->get();
         $images = \App\Models\GalleryImage::orderBy('order')->get();
-        $categories = Category::where('is_active', true)->orderBy('order')->orderBy('name')->get();
+        // Récupérer TOUTES les catégories pour la gestion admin (actives et inactives)
+        $categories = Category::orderBy('order')->orderBy('name')->get();
         return view('products.index', compact('products', 'images', 'categories'));
     }
 

@@ -20,11 +20,10 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255|unique:categories',
             'description' => 'nullable|string',
             'order' => 'nullable|integer|min:0',
-            'is_active' => 'nullable|boolean'
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_active'] = $request->has('is_active') ? true : false;
 
         Category::create($validated);
 
@@ -37,11 +36,10 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
             'description' => 'nullable|string',
             'order' => 'nullable|integer|min:0',
-            'is_active' => 'nullable|boolean'
         ]);
 
         $validated['slug'] = Str::slug($validated['name']);
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_active'] = $request->has('is_active') ? true : false;
 
         $category->update($validated);
 

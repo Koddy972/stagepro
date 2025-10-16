@@ -36,6 +36,12 @@ class ClientAuthController extends Controller
             'password' => ['required'],
         ]);
 
+        // Déconnecter l'admin s'il est connecté
+        if (session('admin_authenticated')) {
+            session()->forget('admin_authenticated');
+            \Illuminate\Support\Facades\Log::info('Déconnexion automatique de l\'admin lors de la connexion client');
+        }
+
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             
@@ -78,6 +84,12 @@ class ClientAuthController extends Controller
             'password.confirmed' => 'Les mots de passe ne correspondent pas.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
         ]);
+
+        // Déconnecter l'admin s'il est connecté
+        if (session('admin_authenticated')) {
+            session()->forget('admin_authenticated');
+            \Illuminate\Support\Facades\Log::info('Déconnexion automatique de l\'admin lors de l\'inscription client');
+        }
 
         $user = User::create([
             'name' => $validated['name'],

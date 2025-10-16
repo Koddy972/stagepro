@@ -364,7 +364,7 @@
                 </a>
             </div>
             <div class="admin-welcome">
-                Bienvenue, {{ Auth::guard('admin')->user()->name }}
+                Bienvenue, {{ Auth::user()->name ?? 'Administrateur' }}
             </div>
         </div>
     </nav>
@@ -386,10 +386,10 @@
 
     <!-- Onglets -->
     <div class="admin-tabs">
-        <button class="admin-tab active" onclick="switchTab('products')">
+        <button class="admin-tab active" onclick="switchTab('products', this)">
             📦 Gestion des Produits
         </button>
-        <button class="admin-tab" onclick="switchTab('categories')">
+        <button class="admin-tab" onclick="switchTab('categories', this)">
             🏷️ Gestion des Catégories
         </button>
     </div>
@@ -510,7 +510,7 @@
                         </td>
                         <td>
                             <div class="actions-cell">
-                                <button onclick="editCategory({{ $category->id }}, '{{ $category->name }}', '{{ $category->description }}', {{ $category->order ?? 0 }}, {{ $category->is_active ? 'true' : 'false' }})" 
+                                <button onclick="editCategory({{ $category->id }}, '{{ addslashes($category->name) }}', '{{ addslashes($category->description ?? '') }}', {{ $category->order ?? 0 }}, {{ $category->is_active ? 'true' : 'false' }})" 
                                         class="btn btn-secondary btn-sm">
                                     ✏️ Modifier
                                 </button>
@@ -543,24 +543,137 @@
     <div class="modal-content">
         <div class="modal-header">
             <h3 class="modal-title" id="modalTitle">Ajouter une Catégorie</h3>
-            <button class="close-modal" onclick="closeCategoryModal()">&times;</button>
+            <button type="button" class="close-modal" onclick="closeCategoryModal()">&times;</button>
         </div>
-        
-        <form id="categoryForm" method="POST" action="{{ route('categories.store') }}">
+        <form id="categoryForm" action="{{ route('categories.store') }}" method="POST">
             @csrf
             <input type="hidden" name="_method" id="formMethod" value="POST">
-            <input type="hidden" name="category_id" id="categoryId">
-            
+            <input type="hidden" id="categoryId">
+
+            @if ($errors->any())
+                <div class="alert alert-error" style="margin-bottom: 20px;">
+                    <ul style="margin: 0; padding-left: 20px;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="form-group">
-                <label class="form-label" for="name">Nom de la catégorie *</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <label class="form-label" for="name">Nom de la catégorie</label>
+                <input type="text" class="form-control" id="name" name="name" required value="{{ old('name') }}">
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                <textarea class="form-control" id="description" name="description" rows="3">{{ old('description') }}</textarea>
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="order">Ordre d'affichage</label>
-                <input type="number" class="form-control" id="order" name="order" min="0" value="0">
+                <input type="number" class="form-control" id="order" name="order" min="0" value="{{ old('order', 0) }}">
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="is_active" id="is_active" {{ old('is_active', true) ? 'checked' : '' }}>
+                    <span>Catégorie active</span>
+                </label>
+            </div>
+
+            <div style="display:flex;gap:10px;justify-content:flex-end">
+                <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Annuler</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Créer</button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    // Gestion des onglets
+    function switchTab(tabName, element) {
+        // Masquer tous les contenus
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Désactiver tous les boutons d'onglets
+        document.querySelectorAll('.admin-tab').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Afficher le contenu sélectionné
+        document.getElementById(tabName + '-tab').classList.add('active');
+        
+        // Activer le bouton correspondant
+        if (element) {
+            element.classList.add('active');
+        }
+    }
+
+    // Gestion du modal de catégorie
+    function openCategoryModal() {
+        document.getElementById('modalTitle').textContent = 'Ajouter une Catégorie';
+        document.getElementById('categoryForm').action = '{{ route("categories.store") }}';
+        document.getElementById('formMethod').value = 'POST';
+        document.getElementById('submitBtn').textContent = 'Créer';
+        
+        // Réinitialiser le formulaire
+        document.getElementById('categoryForm').reset();
+        document.getElementById('categoryId').value = '';
+        document.getElementById('is_active').checked = true;
+        
+        document.getElementById('categoryModal').classList.add('active');
+    }
+
+    function closeCategoryModal() {
+        document.getElementById('categoryModal').classList.remove('active');
+    }
+
+    function editCategory(id, name, description, order, isActive) {
+        document.getElementById('modalTitle').textContent = 'Modifier la Catégorie';
+        document.getElementById('categoryForm').action = '/categories/' + id;
+        document.getElementById('formMethod').value = 'PUT';
+        document.getElementById('submitBtn').textContent = 'Mettre à jour';
+        
+        // Remplir le formulaire
+        document.getElementById('categoryId').value = id;
+        document.getElementById('name').value = name;
+        document.getElementById('description').value = description;
+        document.getElementById('order').value = order;
+        document.getElementById('is_active').checked = isActive;
+        
+        document.getElementById('categoryModal').classList.add('active');
+    }
+
+    // Fermer le modal en cliquant à l'extérieur
+    document.getElementById('categoryModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeCategoryModal();
+        }
+    });
+
+    // Gérer la soumission du formulaire
+    document.getElementById('categoryForm').addEventListener('submit', function(e) {
+        console.log('Formulaire en cours de soumission...');
+        console.log('Action:', this.action);
+        console.log('Method:', this.method);
+        console.log('Data:', new FormData(this));
+        
+        // Le formulaire se soumettra normalement
+    });
+
+    // Si des erreurs existent, ouvrir automatiquement le modal
+    @if ($errors->any())
+        document.addEventListener('DOMContentLoaded', function() {
+            // Afficher l'onglet catégories
+            switchTab('categories');
+            // Ouvrir le modal
+            openCategoryModal();
+        });
+    @endif
+</script>
+@endpush

@@ -155,6 +155,8 @@
             align-items: center !important;
             gap: 15px !important;
             text-decoration: none !important;
+            margin-right: auto !important;
+            padding-right: 40px !important;
         }        
         .logo-icon {
             width: 65px !important;
@@ -208,6 +210,7 @@
             margin: 0 !important;
             padding: 0 !important;
             overflow: visible !important;
+            flex-shrink: 0 !important;
         }
         
         nav ul li {
@@ -800,7 +803,7 @@
         
         <div class="container main-header">
             <div class="header-content">
-                <a href="{{ route('accueil') }}" class="logo">
+                <a href="{{ session('admin_authenticated') ? route('products.index') : route('accueil') }}" class="logo">
                     <div class="logo-icon">
                         <img src="{{ asset('images/logo-caraibes-voiles.png') }}" alt="Logo Caraïbes Voiles">
                     </div>
@@ -812,12 +815,14 @@
                 
                 <nav>
                     <ul>
-                        <li><a href="{{ route('accueil') }}">Accueil</a></li>
-                        <li><a href="{{ route('accueil') }}#services">Services</a></li>
-                        <li><a href="{{ route('boutique') }}">Boutique</a></li>
-                        <li><a href="{{ route('galerie') }}">Galerie</a></li>
-                        <li><a href="{{ route('accueil') }}#about">À Propos</a></li>
-                        <li><a href="{{ route('accueil') }}#contact">Contact</a></li>
+                        @if(!session('admin_authenticated'))
+                            <li><a href="{{ route('accueil') }}">Accueil</a></li>
+                            <li><a href="{{ route('accueil') }}#services">Services</a></li>
+                            <li><a href="{{ route('boutique') }}">Boutique</a></li>
+                            <li><a href="{{ route('galerie') }}">Galerie</a></li>
+                            <li><a href="{{ route('accueil') }}#about">À Propos</a></li>
+                            <li><a href="{{ route('accueil') }}#contact">Contact</a></li>
+                        @endif
                         
                         @if(session('admin_authenticated'))
                             <li>
@@ -835,32 +840,28 @@
                                     </button>
                                 </form>
                             </li>
-                        @endif
-                        
-                        @auth
-                            @if(Auth::user()->isClient())
-                                <li class="client-dropdown">
-                                    <a href="#" class="client-account-btn" id="clientDropdownBtn">
-                                        <i class="fas fa-user-circle"></i>
-                                        {{ explode(' ', Auth::user()->name)[0] }}
-                                        <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                        @elseif(Auth::check() && Auth::user()->isClient())
+                            <li class="client-dropdown">
+                                <a href="#" class="client-account-btn" id="clientDropdownBtn">
+                                    <i class="fas fa-user-circle"></i>
+                                    {{ explode(' ', Auth::user()->name)[0] }}
+                                    <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                                </a>
+                                <div class="client-dropdown-menu" id="clientDropdownMenu">
+                                    <a href="{{ route('my.orders') }}">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        Mes commandes
                                     </a>
-                                    <div class="client-dropdown-menu" id="clientDropdownMenu">
-                                        <a href="{{ route('my.orders') }}">
-                                            <i class="fas fa-shopping-bag"></i>
-                                            Mes commandes
-                                        </a>
-                                        <div class="divider"></div>
-                                        <form action="{{ route('client.logout') }}" method="POST" style="margin: 0;">
-                                            @csrf
-                                            <button type="submit">
-                                                <i class="fas fa-sign-out-alt"></i>
-                                                Déconnexion
-                                            </button>
-                                        </form>
-                                    </div>
-                                </li>
-                            @endif
+                                    <div class="divider"></div>
+                                    <form action="{{ route('client.logout') }}" method="POST" style="margin: 0;">
+                                        @csrf
+                                        <button type="submit">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            Déconnexion
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
                         @else
                             <li>
                                 <a href="{{ route('client.login') }}" class="client-login-btn">
@@ -868,15 +869,17 @@
                                     Connexion
                                 </a>
                             </li>
-                        @endauth
+                        @endif
                         
-                        <li class="cart-icon">
-                            <a href="{{ route('cart.index') }}">
-                                <i class="fas fa-shopping-cart"></i>
-                                Panier
-                                <span class="cart-count" id="cart-count">0</span>
-                            </a>
-                        </li>
+                        @if(!session('admin_authenticated'))
+                            <li class="cart-icon">
+                                <a href="{{ route('cart.index') }}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Panier
+                                    <span class="cart-count" id="cart-count">0</span>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </nav>
             </div>

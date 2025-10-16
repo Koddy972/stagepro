@@ -71,6 +71,14 @@ class AdminController extends Controller
                 'user_agent' => $userAgent
             ]);
 
+            // Déconnecter tout utilisateur client connecté
+            if (\Illuminate\Support\Facades\Auth::check()) {
+                \Illuminate\Support\Facades\Auth::logout();
+                Log::info('Déconnexion automatique du client lors de la connexion admin', [
+                    'ip' => $ipAddress
+                ]);
+            }
+
             // Régénérer la session pour éviter la fixation de session
             $request->session()->regenerate();
             
