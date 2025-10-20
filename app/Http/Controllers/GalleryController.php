@@ -12,15 +12,28 @@ class GalleryController extends Controller
     // Afficher la page galerie publique
     public function index()
     {
-        $images = GalleryImage::orderBy('order')->orderBy('created_at', 'desc')->get();
-        return view('galerie', compact('images'));
+        $images = GalleryImage::with('galleryCategory')
+            ->whereHas('galleryCategory', function($query) {
+                $query->where('is_active', true);
+            })
+            ->orderBy('order')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $categories = \App\Models\GalleryCategory::where('is_active', true)
+            ->orderBy('order')
+            ->orderBy('name')
+            ->get();
+            
+        return view('galerie', compact('images', 'categories'));
     }
 
     // Interface de gestion admin
     public function manage()
     {
-        $images = GalleryImage::orderBy('order')->orderBy('created_at', 'desc')->get();
-        return view('admin.gallery', compact('images'));
+        $images = GalleryImage::with('galleryCategory')->orderBy('order')->orderBy('created_at', 'desc')->get();
+        $categories = \App\Models\GalleryCategory::orderBy('order')->orderBy('name')->get();
+        return view('admin.gallery', compact('images', 'categories'));
     }
 
     // Stocker une nouvelle image
@@ -30,7 +43,7 @@ class GalleryController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
-            'category' => 'required|in:voiles,baches,capitonnage,reparation',
+            'gallery_category_id' => 'required|exists:gallery_categories,id',
             'order' => 'nullable|integer'
         ]);
 
@@ -47,7 +60,7 @@ class GalleryController extends Controller
                 'title' => $request->title,
                 'description' => $request->description,
                 'image_path' => $imagePath,
-                'category' => $request->category,
+                'gallery_category_id' => $request->gallery_category_id,
                 'order' => $request->order ?? 0
             ]);
 
@@ -59,25 +72,34 @@ class GalleryController extends Controller
             ->with('error', 'Erreur lors de l\'upload de l\'image');
     }
 
+    // Récupérer les données d'une image pour l'édition
+    public function edit(GalleryImage $image)
+    {
+        return response()->json([
+            'success' => true,
+            'image' => $image
+        ]);
+    }
+
     // Mettre à jour une image
     public function update(Request $request, GalleryImage $image)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'category' => 'required|in:voiles,baches,capitonnage,reparation',
+            'gallery_category_id' => 'required|exists:gallery_categories,id',
             'order' => 'nullable|integer',
-            'new_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120'
         ]);
 
         // Si nouvelle image, supprimer l'ancienne
-        if ($request->hasFile('new_image')) {
+        if ($request->hasFile('image')) {
             // Supprimer l'ancienne image
             if (file_exists(public_path($image->image_path))) {
                 unlink(public_path($image->image_path));
             }
 
-            $newImage = $request->file('new_image');
+            $newImage = $request->file('image');
             $imageName = time() . '_' . Str::slug($request->title) . '.' . $newImage->getClientOriginalExtension();
             $newImage->move(public_path('images/galerie'), $imageName);
             $image->image_path = 'images/galerie/' . $imageName;
@@ -86,7 +108,7 @@ class GalleryController extends Controller
         $image->update([
             'title' => $request->title,
             'description' => $request->description,
-            'category' => $request->category,
+            'gallery_category_id' => $request->gallery_category_id,
             'order' => $request->order ?? $image->order,
             'image_path' => $image->image_path
         ]);
@@ -104,6 +126,14 @@ class GalleryController extends Controller
         }
 
         $image->delete();
+
+        // Si la requête attend du JSON (AJAX), retourner JSON
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Image supprimée avec succès'
+            ]);
+        }
 
         return redirect()->route('gallery.manage')
             ->with('success', 'Image supprimée avec succès');

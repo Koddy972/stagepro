@@ -15,10 +15,11 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->get();
-        $images = \App\Models\GalleryImage::orderBy('order')->get();
+        $images = \App\Models\GalleryImage::with('galleryCategory')->orderBy('order')->get();
         // Récupérer TOUTES les catégories pour la gestion admin (actives et inactives)
         $categories = Category::orderBy('order')->orderBy('name')->get();
-        return view('products.index', compact('products', 'images', 'categories'));
+        $galleryCategories = \App\Models\GalleryCategory::orderBy('order')->orderBy('name')->get();
+        return view('products.index', compact('products', 'images', 'categories', 'galleryCategories'));
     }
 
     /**

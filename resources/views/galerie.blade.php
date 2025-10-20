@@ -220,16 +220,17 @@
         <!-- Filtres -->
         <div class="galerie-filters">
             <button class="filter-btn active" data-filter="all">Tout</button>
-            <button class="filter-btn" data-filter="voiles">Voiles</button>
-            <button class="filter-btn" data-filter="baches">Bâches</button>
-            <button class="filter-btn" data-filter="capitonnage">Capitonnage</button>
-            <button class="filter-btn" data-filter="reparation">Réparations</button>
+            @foreach($categories as $category)
+                @if($category->is_active && $category->images->count() > 0)
+                    <button class="filter-btn" data-filter="{{ $category->slug }}">{{ $category->name }}</button>
+                @endif
+            @endforeach
         </div>
         
         <!-- Grille de la galerie -->
         <div class="galerie-grid" id="galerieGrid">
             @forelse($images as $image)
-                <div class="galerie-item" data-category="{{ $image->category }}">
+                <div class="galerie-item" data-category="{{ $image->galleryCategory ? $image->galleryCategory->slug : 'non-categorise' }}">
                     <img src="{{ asset($image->image_path) }}" alt="{{ $image->title }}">
                     <div class="galerie-overlay">
                         <h3>{{ $image->title }}</h3>

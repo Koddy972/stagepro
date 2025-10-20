@@ -392,6 +392,9 @@
         <button class="admin-tab" onclick="switchTab('categories', this)">
             🏷️ Gestion des Catégories
         </button>
+        <button class="admin-tab" onclick="switchTab('gallery-categories', this)">
+            🖼️ Catégories Galerie
+        </button>
     </div>
 
     <!-- Contenu Onglet Produits -->
@@ -536,6 +539,71 @@
             </table>
         </div>
     </div>
+
+    <!-- Contenu Onglet Catégories Galerie -->
+    <div id="gallery-categories-tab" class="tab-content">
+        <div class="section-header">
+            <h2 class="section-title">Liste des Catégories de Galerie</h2>
+            <button onclick="openGalleryCategoryModal()" class="btn btn-primary">
+                ➕ Ajouter une Catégorie Galerie
+            </button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Ordre</th>
+                        <th>Nb Images</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($galleryCategories as $galleryCategory)
+                    <tr>
+                        <td><strong>{{ $galleryCategory->name }}</strong></td>
+                        <td>{{ $galleryCategory->description ?? '-' }}</td>
+                        <td>{{ $galleryCategory->order }}</td>
+                        <td>{{ $galleryCategory->images->count() }}</td>
+                        <td>
+                            <span class="badge" style="background-color: {{ $galleryCategory->is_active ? '#28a745' : '#dc3545' }}">
+                                {{ $galleryCategory->is_active ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td>
+                            <div style="display:flex;gap:10px;justify-content:flex-start">
+                                <button type="button" class="btn btn-info btn-sm" 
+                                      onclick="editGalleryCategory({{ $galleryCategory->id }}, '{{ $galleryCategory->name }}', '{{ $galleryCategory->description }}', {{ $galleryCategory->order }}, {{ $galleryCategory->is_active ? 'true' : 'false' }})">
+                                    ✏️ Modifier
+                                </button>
+                                
+                                <form action="{{ route('gallery-categories.destroy', $galleryCategory) }}" 
+                                      method="POST" 
+                                      style="margin: 0"
+                                      onsubmit="return confirm('Êtes-vous sûr ? Cette action est irréversible.')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        🗑️ Supprimer
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" style="text-align:center;padding:40px">
+                            <p style="color:var(--text-gray)">Aucune catégorie de galerie trouvée. Créez votre première catégorie !</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <!-- Modal Catégorie -->
@@ -585,6 +653,48 @@
             <div style="display:flex;gap:10px;justify-content:flex-end">
                 <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Annuler</button>
                 <button type="submit" class="btn btn-primary" id="submitBtn">Créer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Catégorie Galerie -->
+<div id="galleryCategoryModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="galleryModalTitle">Ajouter une Catégorie Galerie</h3>
+            <button type="button" class="close-modal" onclick="closeGalleryCategoryModal()">&times;</button>
+        </div>
+        <form id="galleryCategoryForm" action="{{ route('gallery-categories.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="_method" id="galleryFormMethod" value="POST">
+            <input type="hidden" id="galleryCategoryId">
+
+            <div class="form-group">
+                <label class="form-label" for="gallery_name">Nom de la catégorie</label>
+                <input type="text" class="form-control" id="gallery_name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="gallery_description">Description</label>
+                <textarea class="form-control" id="gallery_description" name="description" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="gallery_order">Ordre d'affichage</label>
+                <input type="number" class="form-control" id="gallery_order" name="order" min="0" value="0">
+            </div>
+
+            <div class="form-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="is_active" id="gallery_is_active" checked>
+                    <span>Catégorie active</span>
+                </label>
+            </div>
+
+            <div style="display:flex;gap:10px;justify-content:flex-end">
+                <button type="button" class="btn btn-secondary" onclick="closeGalleryCategoryModal()">Annuler</button>
+                <button type="submit" class="btn btn-primary" id="gallerySubmitBtn">Créer</button>
             </div>
         </form>
     </div>
@@ -675,5 +785,47 @@
             openCategoryModal();
         });
     @endif
+
+    // Gestion du modal de catégorie galerie
+    function openGalleryCategoryModal() {
+        document.getElementById('galleryModalTitle').textContent = 'Ajouter une Catégorie Galerie';
+        document.getElementById('galleryCategoryForm').action = '{{ route("gallery-categories.store") }}';
+        document.getElementById('galleryFormMethod').value = 'POST';
+        document.getElementById('gallerySubmitBtn').textContent = 'Créer';
+        
+        // Réinitialiser le formulaire
+        document.getElementById('galleryCategoryForm').reset();
+        document.getElementById('galleryCategoryId').value = '';
+        document.getElementById('gallery_is_active').checked = true;
+        
+        document.getElementById('galleryCategoryModal').classList.add('active');
+    }
+
+    function closeGalleryCategoryModal() {
+        document.getElementById('galleryCategoryModal').classList.remove('active');
+    }
+
+    function editGalleryCategory(id, name, description, order, isActive) {
+        document.getElementById('galleryModalTitle').textContent = 'Modifier la Catégorie Galerie';
+        document.getElementById('galleryCategoryForm').action = '/gallery-categories/' + id;
+        document.getElementById('galleryFormMethod').value = 'PUT';
+        document.getElementById('gallerySubmitBtn').textContent = 'Mettre à jour';
+        
+        // Remplir le formulaire
+        document.getElementById('galleryCategoryId').value = id;
+        document.getElementById('gallery_name').value = name;
+        document.getElementById('gallery_description').value = description || '';
+        document.getElementById('gallery_order').value = order;
+        document.getElementById('gallery_is_active').checked = isActive;
+        
+        document.getElementById('galleryCategoryModal').classList.add('active');
+    }
+
+    // Fermer le modal de galerie en cliquant à l'extérieur
+    document.getElementById('galleryCategoryModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeGalleryCategoryModal();
+        }
+    });
 </script>
 @endpush

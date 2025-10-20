@@ -300,6 +300,9 @@
     <div class="admin-header">
         <h1><i class="fas fa-images"></i> Gestion de la Galerie</h1>
         <div class="btn-group">
+            <button id="manageCategoriesBtn" class="btn-add" style="background-color: #6c757d;">
+                <i class="fas fa-folder"></i> Gérer Catégories
+            </button>
             <a href="{{ route('products.index') }}" class="btn-add" style="background-color: var(--dark-blue);">
                 <i class="fas fa-box"></i> Gestion Produits
             </a>
@@ -341,12 +344,13 @@
 
             <div class="form-group">
                 <label for="category">Catégorie *</label>
-                <select id="category" name="category" required>
+                <select id="category" name="gallery_category_id" required>
                     <option value="">Sélectionner une catégorie</option>
-                    <option value="voiles">Voiles</option>
-                    <option value="baches">Bâches</option>
-                    <option value="capitonnage">Capitonnage</option>
-                    <option value="reparation">Réparation</option>
+                    @foreach($categories as $category)
+                        @if($category->is_active)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endif
+                    @endforeach
                 </select>
             </div>
 
@@ -379,7 +383,11 @@
             <div class="gallery-card">
                 <img src="{{ asset($image->image_path) }}" alt="{{ $image->title }}" class="gallery-card-image">
                 <div class="gallery-card-body">
-                    <span class="gallery-card-category">{{ ucfirst($image->category) }}</span>
+                    @if($image->galleryCategory)
+                        <span class="gallery-card-category">{{ $image->galleryCategory->name }}</span>
+                    @else
+                        <span class="gallery-card-category" style="background-color: #6c757d;">Non catégorisé</span>
+                    @endif
                     <h3 class="gallery-card-title">{{ $image->title }}</h3>
                     @if($image->description)
                         <p class="gallery-card-description">{{ $image->description }}</p>
@@ -407,10 +415,202 @@
     </div>
 </div>
 
+<!-- Modal de modification -->
+<div class="modal" id="editModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-edit"></i> Modifier l'Image</h2>
+            <button class="modal-close" onclick="closeEditModal()">&times;</button>
+        </div>
+        <form id="editForm" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="form-group">
+                <label for="edit_title">Titre *</label>
+                <input type="text" id="edit_title" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="edit_description">Description</label>
+                <textarea id="edit_description" name="description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="edit_category">Catégorie *</label>
+                <select id="edit_category" name="gallery_category_id" required>
+                    @foreach($categories as $category)
+                        @if($category->is_active)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="edit_order">Ordre d'affichage</label>
+                <input type="number" id="edit_order" name="order" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="edit_image">Nouvelle image (optionnel, Max 5MB)</label>
+                <input type="file" id="edit_image" name="image" accept="image/*" onchange="previewEditImage(event)">
+                <img id="editImagePreview" class="preview-image" alt="Aperçu">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Enregistrer
+                </button>
+                <button type="button" class="btn" style="background-color: #6c757d; color: white;" onclick="closeEditModal()">
+                    <i class="fas fa-times"></i> Annuler
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de gestion des catégories -->
+<div class="modal" id="categoriesModal">
+    <div class="modal-content" style="max-width: 900px;">
+        <div class="modal-header">
+            <h2><i class="fas fa-folder"></i> Gestion des Catégories</h2>
+            <button class="modal-close" onclick="closeCategoriesModal()">&times;</button>
+        </div>
+        
+        <!-- Formulaire d'ajout de catégorie -->
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+            <h3 style="color: var(--dark-blue); margin-bottom: 15px;">
+                <i class="fas fa-plus-circle"></i> Nouvelle Catégorie
+            </h3>
+            <form action="{{ route('gallery-categories.store') }}" method="POST">
+                @csrf
+                <div style="display: grid; grid-template-columns: 1fr 2fr 100px 100px; gap: 10px; align-items: end;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="new_category_name">Nom *</label>
+                        <input type="text" id="new_category_name" name="name" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="new_category_description">Description</label>
+                        <input type="text" id="new_category_description" name="description">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="new_category_order">Ordre</label>
+                        <input type="number" id="new_category_order" name="order" value="0" min="0">
+                    </div>
+                    <button type="submit" class="btn-add" style="margin: 0; height: 44px;">
+                        <i class="fas fa-plus"></i> Ajouter
+                    </button>
+                </div>
+                <div class="form-group" style="margin-top: 10px; margin-bottom: 0;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" name="is_active" checked style="width: auto;">
+                        <span>Catégorie active</span>
+                    </label>
+                </div>
+            </form>
+        </div>
+
+        <!-- Liste des catégories existantes -->
+        <div>
+            <h3 style="color: var(--dark-blue); margin-bottom: 15px;">
+                <i class="fas fa-list"></i> Catégories Existantes
+            </h3>
+            <div style="max-height: 400px; overflow-y: auto;">
+                @forelse($categories as $category)
+                    <div class="category-item" style="background: white; padding: 15px; border-radius: 5px; margin-bottom: 10px; border: 2px solid {{ $category->is_active ? 'var(--gold)' : '#ddd' }};">
+                        <form action="{{ route('gallery-categories.update', $category) }}" method="POST" class="category-edit-form">
+                            @csrf
+                            @method('PUT')
+                            <div style="display: grid; grid-template-columns: 1fr 2fr 80px 120px auto; gap: 10px; align-items: center;">
+                                <div>
+                                    <input type="text" name="name" value="{{ $category->name }}" 
+                                           style="padding: 8px; border: 1px solid #ddd; border-radius: 3px; width: 100%;" required>
+                                </div>
+                                <div>
+                                    <input type="text" name="description" value="{{ $category->description }}" 
+                                           placeholder="Description..." 
+                                           style="padding: 8px; border: 1px solid #ddd; border-radius: 3px; width: 100%;">
+                                </div>
+                                <div>
+                                    <input type="number" name="order" value="{{ $category->order }}" min="0"
+                                           style="padding: 8px; border: 1px solid #ddd; border-radius: 3px; width: 100%;">
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <label style="display: flex; align-items: center; gap: 5px; cursor: pointer; margin: 0;">
+                                        <input type="checkbox" name="is_active" {{ $category->is_active ? 'checked' : '' }} 
+                                               style="width: auto; margin: 0;">
+                                        <span style="font-size: 0.9rem;">Active</span>
+                                    </label>
+                                </div>
+                                <div style="display: flex; gap: 5px;">
+                                    <button type="submit" class="btn-edit" style="padding: 8px 12px; font-size: 0.85rem;">
+                                        <i class="fas fa-save"></i> Sauver
+                                    </button>
+                                    <button type="button" class="btn-delete" style="padding: 8px 12px; font-size: 0.85rem;"
+                                            onclick="deleteCategory({{ $category->id }}, '{{ $category->name }}', {{ $category->images->count() }})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="margin-top: 8px; font-size: 0.85rem; color: #666;">
+                                <i class="fas fa-images"></i> {{ $category->images->count() }} image(s) 
+                                @if(!$category->is_active)
+                                    <span style="color: #dc3545; font-weight: bold;">• Désactivée</span>
+                                @endif
+                            </div>
+                        </form>
+                        
+                        <!-- Formulaire de suppression caché -->
+                        <form id="delete-category-form-{{ $category->id }}" 
+                              action="{{ route('gallery-categories.destroy', $category) }}" 
+                              method="POST" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    </div>
+                @empty
+                    <div style="text-align: center; padding: 40px; color: #999;">
+                        <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                        <p>Aucune catégorie. Créez-en une ci-dessus.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #eee; text-align: right;">
+            <button type="button" class="btn" style="background-color: #6c757d; color: white; padding: 10px 20px;" 
+                    onclick="closeCategoriesModal()">
+                <i class="fas fa-times"></i> Fermer
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
-function toggleAddForm() {
-    const form = document.getElementById('addImageForm');
-    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+// Toggle du formulaire d'ajout
+document.getElementById('toggleAddForm').addEventListener('click', function() {
+    const container = document.getElementById('addFormContainer');
+    container.classList.toggle('active');
+});
+
+// Ouvrir le modal de gestion des catégories
+document.getElementById('manageCategoriesBtn').addEventListener('click', function() {
+    document.getElementById('categoriesModal').classList.add('active');
+});
+
+function closeCategoriesModal() {
+    document.getElementById('categoriesModal').classList.remove('active');
+}
+
+function deleteCategory(categoryId, categoryName, imagesCount) {
+    if (imagesCount > 0) {
+        alert(`Impossible de supprimer la catégorie "${categoryName}" car elle contient ${imagesCount} image(s).\n\nVeuillez d'abord déplacer ou supprimer ces images.`);
+        return;
+    }
+    
+    if (confirm(`Êtes-vous sûr de vouloir supprimer la catégorie "${categoryName}" ?`)) {
+        document.getElementById('delete-category-form-' + categoryId).submit();
+    }
 }
 
 function previewImage(event) {
@@ -425,6 +625,62 @@ function previewImage(event) {
         }
         reader.readAsDataURL(file);
     }
+}
+
+function previewEditImage(event) {
+    const preview = document.getElementById('editImagePreview');
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+function openEditModal(imageId) {
+    // Récupérer les données de l'image via AJAX
+    fetch(`/admin/gallery/${imageId}/edit`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const image = data.image;
+            
+            // Remplir le formulaire
+            document.getElementById('edit_title').value = image.title;
+            document.getElementById('edit_description').value = image.description || '';
+            document.getElementById('edit_category').value = image.gallery_category_id || '';
+            document.getElementById('edit_order').value = image.order;
+            
+            // Afficher l'image actuelle
+            const preview = document.getElementById('editImagePreview');
+            preview.src = '/' + image.image_path;
+            preview.style.display = 'block';
+            
+            // Mettre à jour l'action du formulaire
+            document.getElementById('editForm').action = `/admin/gallery/${imageId}`;
+            
+            // Afficher le modal
+            document.getElementById('editModal').classList.add('active');
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors du chargement des données');
+    });
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').classList.remove('active');
+    document.getElementById('editForm').reset();
 }
 
 function deleteImage(id) {
@@ -451,6 +707,13 @@ function deleteImage(id) {
     }
 }
 
+// Fermer le modal en cliquant en dehors
+window.onclick = function(event) {
+    const modal = document.getElementById('editModal');
+    if (event.target === modal) {
+        closeEditModal();
+    }
+}
 </script>
 
 @endsection

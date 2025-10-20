@@ -10,11 +10,27 @@ class GalleryImage extends Model
         'title',
         'description',
         'image_path',
-        'category',
+        'gallery_category_id',
         'order'
     ];
 
     protected $casts = [
         'order' => 'integer'
     ];
+
+    /**
+     * Relation avec la catégorie de galerie
+     */
+    public function galleryCategory()
+    {
+        return $this->belongsTo(GalleryCategory::class);
+    }
+
+    /**
+     * Accessor pour compatibilité (si besoin)
+     */
+    public function getCategoryAttribute()
+    {
+        return $this->galleryCategory ? $this->galleryCategory->slug : null;
+    }
 }

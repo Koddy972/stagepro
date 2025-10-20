@@ -5,6 +5,7 @@ use App\Http\Controllers\BoutiqueController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\GalleryCategoryController;
 use App\Http\Controllers\ClientAuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
@@ -30,14 +31,20 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 Route::middleware(['admin'])->group(function() {
     Route::resource('products', ProductController::class)->except(['show']);
     
-    // Routes pour la gestion des catégories
+    // Routes pour la gestion des catégories de produits
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
     Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     
+    // Routes pour la gestion des catégories de galerie
+    Route::post('/gallery-categories', [GalleryCategoryController::class, 'store'])->name('gallery-categories.store');
+    Route::put('/gallery-categories/{galleryCategory}', [GalleryCategoryController::class, 'update'])->name('gallery-categories.update');
+    Route::delete('/gallery-categories/{galleryCategory}', [GalleryCategoryController::class, 'destroy'])->name('gallery-categories.destroy');
+    
     // Routes pour la gestion de la galerie
     Route::get('/admin/gallery', [GalleryController::class, 'manage'])->name('gallery.manage');
     Route::post('/admin/gallery', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::get('/admin/gallery/{image}/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
     Route::put('/admin/gallery/{image}', [GalleryController::class, 'update'])->name('gallery.update');
     Route::delete('/admin/gallery/{image}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 });
