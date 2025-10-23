@@ -125,15 +125,107 @@
     .service-card {
         background: var(--white);
         border-radius: 6px;
-        overflow: hidden;
+        overflow: visible;
         transition: transform 0.3s, box-shadow 0.3s;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
         border: 1px solid #f1f1f1;
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        flex-direction: column;
     }
     
     .service-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        z-index: 20;
+    }
+    
+    .service-card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    
+    /* Popup d'aperçu des photos */
+    .service-card {
+        position: relative;
+    }
+    
+    .service-preview {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
+        backdrop-filter: blur(10px);
+        border-radius: 0 0 6px 6px;
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+        padding: 0 20px;
+        z-index: 10;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
+    }
+    
+    .service-card:hover .service-preview {
+        max-height: 500px;
+        opacity: 1;
+        padding: 20px;
+    }
+    
+    .preview-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--dark-blue);
+        margin-bottom: 12px;
+        text-align: center;
+        padding-top: 5px;
+    }
+    
+    .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .preview-image {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 6px;
+        transition: transform 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .preview-image:hover {
+        transform: scale(1.05);
+    }
+    
+    .preview-more {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: var(--gold);
+        font-weight: 600;
+        padding-bottom: 5px;
+    }
+    
+    .preview-empty {
+        text-align: center;
+        padding: 30px 20px;
+        color: var(--text-gray);
+        font-size: 0.9rem;
+    }
+    
+    .preview-empty i {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 2rem;
+        color: var(--medium-blue);
+        opacity: 0.5;
     }
     
     .service-icon {
@@ -253,7 +345,7 @@
         <h1>Expert en Confection & Réparation de Voiles</h1>
         <p>Spécialistes en fabrication et réparation de voiles, bâches, biminis et capitonnage pour auto, moto, bateau et ameublement</p>
         <div style="text-align:center; display:flex; gap:18px; justify-content:center;">
-            <a href="#contact" class="btn" style="background-color:#e84e9b; color:#fff; border:none;">
+            <a href="{{ route('quote.create') }}" class="btn" style="background-color:#e84e9b; color:#fff; border:none;">
                 Demander un devis
             </a>
             <a href="#services" class="btn btn-light">
@@ -271,65 +363,58 @@
             <p>Des solutions sur mesure pour tous vos besoins en voilerie et protection</p>
         </div>
         <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-sailboat"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Tauds et Voiles</h3>
-                    <p>Fabrication et réparation sur mesure de tous types de tauds et voiles pour bateaux et autres applications.</p>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-umbrella-beach"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Bâches</h3>
-                    <p>Conception de bâches de protection sur mesure pour tous vos besoins professionnels et personnels.</p>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-chair"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Capitonnage</h3>
-                    <p>Services de capitonnage de qualité pour redonner une seconde vie à vos sièges et ameublements.</p>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-car"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Biminis</h3>
-                    <p>Réalisation de biminis sur mesure pour protéger votre pont des intempéries.</p>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-couch"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Sièges et Coussins</h3>
-                    <p>Création et réparation de sièges et coussins pour auto, moto, bateaux et ameublement.</p>
-                </div>
-            </div>
-            
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-tools"></i>
-                </div>
-                <div class="service-content">
-                    <h3>Solutions Sur Mesure</h3>
-                    <p>Des solutions adaptées à vos besoins spécifiques avec un service personnalisé.</p>
-                </div>
-            </div>
+            @php
+            $servicesMap = [
+                ['title' => 'Tauds et Voiles', 'icon' => 'fa-sailboat', 'description' => 'Fabrication et réparation sur mesure de tous types de tauds et voiles pour bateaux et autres applications.', 'category_slug' => 'tauds-voiles'],
+                ['title' => 'Bâches', 'icon' => 'fa-umbrella-beach', 'description' => 'Conception de bâches de protection sur mesure pour tous vos besoins professionnels et personnels.', 'category_slug' => 'baches-protection'],
+                ['title' => 'Capitonnage', 'icon' => 'fa-chair', 'description' => 'Services de capitonnage de qualité pour redonner une seconde vie à vos sièges et ameublements.', 'category_slug' => 'capitonnage'],
+                ['title' => 'Biminis', 'icon' => 'fa-car', 'description' => 'Réalisation de biminis sur mesure pour protéger votre pont des intempéries.', 'category_slug' => 'biminis'],
+                ['title' => 'Sièges et Coussins', 'icon' => 'fa-couch', 'description' => 'Création et réparation de sièges et coussins pour auto, moto, bateaux et ameublement.', 'category_slug' => 'sieges-coussins'],
+                ['title' => 'Solutions Sur Mesure', 'icon' => 'fa-tools', 'description' => 'Des solutions adaptées à vos besoins spécifiques avec un service personnalisé.', 'category_slug' => 'solutions-sur-mesure']
+            ];
+            @endphp
+
+            @foreach($servicesMap as $service)
+                @php
+                $category = $galleryCategories->firstWhere('slug', $service['category_slug']);
+                $galleryUrl = $service['category_slug'] ? route('galerie') . '?category=' . $service['category_slug'] : route('galerie');
+                @endphp
+                
+                <a href="{{ $galleryUrl }}" class="service-card-link">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas {{ $service['icon'] }}"></i>
+                        </div>
+                        <div class="service-content">
+                            <h3>{{ $service['title'] }}</h3>
+                            <p>{{ $service['description'] }}</p>
+                        </div>
+                        
+                        @if($category && $category->images->count() > 0)
+                            <div class="service-preview">
+                                <div class="preview-title">Nos réalisations</div>
+                                <div class="preview-grid">
+                                    @foreach($category->images->take(4) as $image)
+                                        <img src="{{ asset($image->image_path) }}" alt="{{ $image->title }}" class="preview-image">
+                                    @endforeach
+                                </div>
+                                @if($category->images->count() > 4)
+                                    <div class="preview-more">
+                                        +{{ $category->images->count() - 4 }} autres photos
+                                    </div>
+                                @endif
+                            </div>
+                        @elseif($service['category_slug'])
+                            <div class="service-preview">
+                                <div class="preview-empty">
+                                    <i class="fas fa-images" style="font-size: 2rem; color: var(--medium-blue); margin-bottom: 10px; display: block;"></i>
+                                    Aucune réalisation pour le moment
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </a>
+            @endforeach
         </div>
     </div>
 </section>

@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class GalleryController extends Controller
 {
     // Afficher la page galerie publique
-    public function index()
+    public function index(Request $request)
     {
         $images = GalleryImage::with('galleryCategory')
             ->whereHas('galleryCategory', function($query) {
@@ -24,8 +24,11 @@ class GalleryController extends Controller
             ->orderBy('order')
             ->orderBy('name')
             ->get();
+        
+        // Récupérer la catégorie sélectionnée depuis l'URL
+        $selectedCategory = $request->get('category', null);
             
-        return view('galerie', compact('images', 'categories'));
+        return view('galerie', compact('images', 'categories', 'selectedCategory'));
     }
 
     // Interface de gestion admin
@@ -137,5 +140,36 @@ class GalleryController extends Controller
 
         return redirect()->route('gallery.manage')
             ->with('success', 'Image supprimée avec succès');
+    }
+
+    // Récupérer les images d'une catégorie pour le hover (AJAX)
+    public function getImagesByCategory($categorySlug)
+    {
+        $category = \App\Models\GalleryCategory::where('slug', $categorySlug)->first();
+        
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Catégorie non trouvée'
+            ], 404);
+        }
+
+        $images = GalleryImage::where('gallery_category_id', $category->id)
+            ->orderBy('order')
+            ->orderBy('created_at', 'desc')
+            ->limit(6) // Maximum 6 images pour le hover
+            ->get()
+            ->map(function($image) {
+                return [
+                    'id' => $image->id,
+                    'title' => $image->title,
+                    'image_url' => asset($image->image_path)
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'images' => $images
+        ]);
     }
 }

@@ -14,7 +14,7 @@ class ClientAuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::check() && Auth::user()->isClient()) {
-            return redirect()->route('cart.checkout');
+            return redirect()->route('accueil');
         }
         return view('auth.client-login');
     }
@@ -23,7 +23,7 @@ class ClientAuthController extends Controller
     public function showRegisterForm()
     {
         if (Auth::check() && Auth::user()->isClient()) {
-            return redirect()->route('cart.checkout');
+            return redirect()->route('accueil');
         }
         return view('auth.client-register');
     }
@@ -53,7 +53,9 @@ class ClientAuthController extends Controller
                 }
                 
                 $request->session()->regenerate();
-                return redirect()->intended(route('cart.checkout'))
+                
+                // Rediriger vers la page d'origine ou vers l'accueil par défaut
+                return redirect()->intended(route('accueil'))
                     ->with('success', 'Connexion réussie !');
             }
             
@@ -102,7 +104,8 @@ class ClientAuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('cart.checkout')
+        // Rediriger vers la page d'origine ou vers l'accueil par défaut
+        return redirect()->intended(route('accueil'))
             ->with('success', 'Compte créé avec succès !');
     }
 

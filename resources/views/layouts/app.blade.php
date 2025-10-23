@@ -664,6 +664,13 @@
             text-align: center;
         }
         
+        .footer-content p {
+            color: var(--white) !important;
+            margin: 10px 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
         .footer-logo {
             display: flex;
             justify-content: center;
@@ -673,21 +680,21 @@
         }
         
         .footer-logo .logo-main {
-            color: var(--white);
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            white-space: nowrap;
+            color: var(--white) !important;
+            font-family: 'Playfair Display', serif !important;
+            font-size: 1.5rem !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
         }
         
         .footer-logo .logo-subtitle {
-            color: var(--gold);
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-            border-left: 2px solid var(--gold);
-            padding-left: 12px;
+            color: var(--gold) !important;
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.5px !important;
+            white-space: nowrap !important;
+            border-left: 2px solid var(--gold) !important;
+            padding-left: 12px !important;
         }
         
         /* Mobile responsive - Maintien des proportions */

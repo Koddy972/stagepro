@@ -158,5 +158,81 @@ class AdminController extends Controller
 
         return back()->with('success', 'Statut de la commande mis à jour.');
     }
+
+    /**
+     * Afficher tous les devis
+     */
+    public function showQuotes(Request $request)
+    {
+        $query = \App\Models\Quote::query();
+
+        // Filtrer par statut
+        if ($request->has('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        // Trier par date (plus récents en premier)
+        $quotes = $query->orderBy('created_at', 'desc')->paginate(20);
+
+        // Compter les devis non lus
+        $unreadCount = \App\Models\Quote::unread()->count();
+        $pendingCount = \App\Models\Quote::pending()->count();
+
+        return view('admin.quotes', compact('quotes', 'unreadCount', 'pendingCount'));
+    }
+
+    /**
+     * Voir les détails d'un devis
+     */
+    public function showQuoteDetails($quoteId)
+    {
+        $quote = \App\Models\Quote::findOrFail($quoteId);
+        
+        // Marquer comme lu automatiquement
+        $quote->markAsRead();
+
+        return view('admin.quote-details', compact('quote'));
+    }
+
+    /**
+     * Mettre à jour le statut d'un devis
+     */
+    public function updateQuoteStatus(Request $request, $quoteId)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,in_progress,quoted,accepted,rejected',
+            'admin_notes' => 'nullable|string'
+        ]);
+
+        $quote = \App\Models\Quote::findOrFail($quoteId);
+        $quote->update([
+            'status' => $request->status,
+            'admin_notes' => $request->admin_notes
+        ]);
+
+        Log::info('Statut du devis mis à jour', [
+            'quote_id' => $quoteId,
+            'new_status' => $request->status,
+            'admin_ip' => request()->ip()
+        ]);
+
+        return back()->with('success', 'Statut du devis mis à jour.');
+    }
+
+    /**
+     * Supprimer un devis
+     */
+    public function deleteQuote($quoteId)
+    {
+        $quote = \App\Models\Quote::findOrFail($quoteId);
+        $quote->delete();
+
+        Log::info('Devis supprimé', [
+            'quote_id' => $quoteId,
+            'admin_ip' => request()->ip()
+        ]);
+
+        return redirect()->route('admin.quotes')->with('success', 'Devis supprimé avec succès.');
+    }
 }
     

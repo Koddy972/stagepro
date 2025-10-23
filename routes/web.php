@@ -9,6 +9,8 @@ use App\Http\Controllers\GalleryCategoryController;
 use App\Http\Controllers\ClientAuthController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BoutiqueController::class, 'index'])->name('accueil');
@@ -18,6 +20,9 @@ Route::get('/service', function () {
 })->name('service');
 
 Route::get('/galerie', [GalleryController::class, 'index'])->name('galerie');
+
+// Route pour récupérer les images par catégorie (pour hover services)
+Route::get('/gallery/category/{categorySlug}/images', [GalleryController::class, 'getImagesByCategory'])->name('gallery.category.images');
 
 // Route pour la page boutique
 Route::get('/boutique', [BoutiqueController::class, 'boutique'])->name('boutique');
@@ -76,11 +81,30 @@ Route::middleware(['client'])->group(function() {
     Route::get('/order/confirmation/{order}', [OrderController::class, 'confirmation'])->name('order.confirmation');
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('my.orders');
     Route::get('/my-orders/{order}', [OrderController::class, 'show'])->name('order.show');
+    
+    // Routes Stripe pour le paiement
+    Route::post('/payment/checkout', [PaymentController::class, 'createCheckoutSession'])->name('payment.checkout');
+    Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
+
+// Webhook Stripe (pas de middleware pour permettre à Stripe d'envoyer les notifications)
+Route::post('/stripe/webhook', [PaymentController::class, 'webhook'])->name('stripe.webhook');
 
 // Routes admin pour les commandes
 Route::middleware(['admin'])->group(function() {
     Route::get('/admin/orders', [AdminController::class, 'showOrders'])->name('admin.orders');
     Route::get('/admin/orders/{order}', [AdminController::class, 'showOrderDetails'])->name('admin.order.details');
     Route::put('/admin/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('admin.order.status');
+    
+    // Routes pour les devis (admin)
+    Route::get('/admin/quotes', [AdminController::class, 'showQuotes'])->name('admin.quotes');
+    Route::get('/admin/quotes/{quote}', [AdminController::class, 'showQuoteDetails'])->name('admin.quote.details');
+    Route::put('/admin/quotes/{quote}/status', [AdminController::class, 'updateQuoteStatus'])->name('admin.quote.status');
+    Route::delete('/admin/quotes/{quote}', [AdminController::class, 'deleteQuote'])->name('admin.quote.delete');
 });
+
+// Routes pour les demandes de devis
+Route::get('/demander-un-devis', [QuoteController::class, 'create'])->name('quote.create');
+Route::post('/demander-un-devis', [QuoteController::class, 'store'])->name('quote.store');
+Route::get('/devis/confirmation', [QuoteController::class, 'success'])->name('quote.success');

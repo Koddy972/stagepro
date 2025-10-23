@@ -362,6 +362,9 @@
                 <a href="{{ route('admin.orders') }}" class="admin-nav-link">
                     📋 Commandes
                 </a>
+                <a href="{{ route('admin.quotes') }}" class="admin-nav-link">
+                    📄 Devis
+                </a>
             </div>
             <div class="admin-welcome">
                 Bienvenue, {{ Auth::user()->name ?? 'Administrateur' }}

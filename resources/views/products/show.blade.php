@@ -380,7 +380,7 @@
                 <h1>{{ $product->name }}</h1>
                 
                 <div class="product-price">
-                    €{{ number_format($product->price, 2) }} 
+                    {{ number_format($product->price, 2, ',', ' ') }} €
                     @if($product->in_stock)
                         <span class="stock-badge">(En Stock)</span>
                     @else
@@ -466,7 +466,7 @@
                     <div class="product-content">
                         <h3>{{ Str::limit($related->name, 40) }}</h3>
                         <p>{{ Str::limit($related->description, 80) }}</p>
-                        <div class="product-price">€{{ number_format($related->price, 2) }}</div>
+                        <div class="product-price">{{ number_format($related->price, 2, ',', ' ') }} €</div>
                         <a href="{{ route('products.show', $related) }}" class="product-btn" onclick="event.stopPropagation();">Détails</a>
                     </div>
                 </div>

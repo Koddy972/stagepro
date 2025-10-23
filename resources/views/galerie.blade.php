@@ -219,10 +219,10 @@
     <div class="container">
         <!-- Filtres -->
         <div class="galerie-filters">
-            <button class="filter-btn active" data-filter="all">Tout</button>
+            <button class="filter-btn {{ !$selectedCategory ? 'active' : '' }}" data-filter="all">Tout</button>
             @foreach($categories as $category)
                 @if($category->is_active && $category->images->count() > 0)
-                    <button class="filter-btn" data-filter="{{ $category->slug }}">{{ $category->name }}</button>
+                    <button class="filter-btn {{ $selectedCategory == $category->slug ? 'active' : '' }}" data-filter="{{ $category->slug }}">{{ $category->name }}</button>
                 @endif
             @endforeach
         </div>
@@ -267,6 +267,33 @@
     const filterBtns = document.querySelectorAll('.filter-btn');
     const galerieItems = document.querySelectorAll('.galerie-item');
     
+    // Au chargement de la page, filtrer selon le paramètre URL
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        
+        if (categoryParam) {
+            // Trouver et activer le bon filtre
+            const targetBtn = document.querySelector(`[data-filter="${categoryParam}"]`);
+            if (targetBtn) {
+                // Désactiver tous les boutons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Activer le bon bouton
+                targetBtn.classList.add('active');
+                
+                // Filtrer les images
+                galerieItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    if (category === categoryParam) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        }
+    });
+    
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             // Retirer la classe active de tous les boutons
@@ -275,6 +302,15 @@
             btn.classList.add('active');
             
             const filterValue = btn.getAttribute('data-filter');
+            
+            // Mettre à jour l'URL sans recharger la page
+            const url = new URL(window.location);
+            if (filterValue === 'all') {
+                url.searchParams.delete('category');
+            } else {
+                url.searchParams.set('category', filterValue);
+            }
+            window.history.pushState({}, '', url);
             
             galerieItems.forEach(item => {
                 if (filterValue === 'all') {
@@ -288,6 +324,9 @@
                     }
                 }
             });
+            
+            // Mettre à jour les images visibles pour le lightbox
+            updateVisibleImages();
         });
     });
     

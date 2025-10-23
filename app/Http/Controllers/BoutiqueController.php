@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\GalleryCategory;
 
 class BoutiqueController extends Controller
 {
@@ -16,7 +17,14 @@ class BoutiqueController extends Controller
         // Récupère tous les produits en stock
         $products = Product::where('in_stock', true)->get();
         
-        return view('accueil', compact('products'));
+        // Récupère les catégories de galerie avec leurs images pour les services
+        $galleryCategories = GalleryCategory::where('is_active', true)
+            ->with(['images' => function($query) {
+                $query->limit(4); // Limite à 4 images par catégorie pour l'aperçu
+            }])
+            ->get();
+        
+        return view('accueil', compact('products', 'galleryCategories'));
     }
 
     /**
