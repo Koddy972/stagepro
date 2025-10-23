@@ -460,7 +460,7 @@
                             </a>
                         </p>
                     @endauth
-                    <a href="{{ route('accueil') }}#boutique" class="btn-shop">
+                    <a href="{{ route('boutique') }}" class="btn-shop">
                         <i class="fas fa-arrow-left"></i> Continuer mes achats
                     </a>
                 </div>
@@ -470,7 +470,7 @@
                 <i class="fas fa-shopping-cart fa-5x"></i>
                 <h3>Votre panier est vide</h3>
                 <p>Découvrez nos produits et ajoutez-les à votre panier</p>
-                <a href="{{ route('accueil') }}#boutique" class="btn-shop" style="display: inline-block; width: auto; padding: 12px 40px;">
+                <a href="{{ route('boutique') }}" class="btn-shop" style="display: inline-block; width: auto; padding: 12px 40px;">
                     <i class="fas fa-store"></i> Voir la boutique
                 </a>
             </div>

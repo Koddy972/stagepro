@@ -21,7 +21,7 @@ $servicesMap = [
     ],
     [
         'title' => 'Biminis',
-        'icon' => 'fa-car',
+        'icon' => 'fa-umbrella',
         'description' => 'Réalisation de biminis sur mesure pour protéger votre pont des intempéries.',
         'category_slug' => 'biminis'
     ],

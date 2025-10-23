@@ -116,8 +116,9 @@
 
     .products-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
         gap: 30px;
+        justify-content: start;
     }
     
     .product-card {
@@ -130,6 +131,7 @@
         display: flex;
         flex-direction: column;
         border: 1px solid #f1f1f1;
+        width: 100%;
     }
 
     .product-card:hover {

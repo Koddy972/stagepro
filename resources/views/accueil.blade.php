@@ -120,6 +120,14 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 30px;
+        align-items: stretch;
+    }
+    
+    .service-card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        height: 100%;
     }
     
     .service-card {
@@ -133,18 +141,13 @@
         position: relative;
         display: flex;
         flex-direction: column;
+        height: 100%;
     }
     
     .service-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         z-index: 20;
-    }
-    
-    .service-card-link {
-        text-decoration: none;
-        color: inherit;
-        display: block;
     }
     
     /* Popup d'aperçu des photos */
@@ -234,10 +237,14 @@
         font-size: 2.2rem;
         padding: 25px;
         text-align: center;
+        flex-shrink: 0;
     }
     
     .service-content {
         padding: 25px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
     
     .service-content h3 {
@@ -249,8 +256,9 @@
     
     .service-content p {
         color: var(--text-gray);
-        margin-bottom: 20px;
+        margin-bottom: 0;
         line-height: 1.7;
+        flex: 1;
     }
     
     /* About section */
@@ -368,7 +376,7 @@
                 ['title' => 'Tauds et Voiles', 'icon' => 'fa-sailboat', 'description' => 'Fabrication et réparation sur mesure de tous types de tauds et voiles pour bateaux et autres applications.', 'category_slug' => 'tauds-voiles'],
                 ['title' => 'Bâches', 'icon' => 'fa-umbrella-beach', 'description' => 'Conception de bâches de protection sur mesure pour tous vos besoins professionnels et personnels.', 'category_slug' => 'baches-protection'],
                 ['title' => 'Capitonnage', 'icon' => 'fa-chair', 'description' => 'Services de capitonnage de qualité pour redonner une seconde vie à vos sièges et ameublements.', 'category_slug' => 'capitonnage'],
-                ['title' => 'Biminis', 'icon' => 'fa-car', 'description' => 'Réalisation de biminis sur mesure pour protéger votre pont des intempéries.', 'category_slug' => 'biminis'],
+                ['title' => 'Biminis', 'icon' => 'fa-umbrella', 'description' => 'Réalisation de biminis sur mesure pour protéger votre pont des intempéries.', 'category_slug' => 'biminis'],
                 ['title' => 'Sièges et Coussins', 'icon' => 'fa-couch', 'description' => 'Création et réparation de sièges et coussins pour auto, moto, bateaux et ameublement.', 'category_slug' => 'sieges-coussins'],
                 ['title' => 'Solutions Sur Mesure', 'icon' => 'fa-tools', 'description' => 'Des solutions adaptées à vos besoins spécifiques avec un service personnalisé.', 'category_slug' => 'solutions-sur-mesure']
             ];

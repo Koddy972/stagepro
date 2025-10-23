@@ -131,53 +131,217 @@
 
     .products-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 35px;
+        max-width: 100%;
     }
     
     .product-card {
         background: var(--white);
-        border-radius: 8px;
+        border-radius: 16px;
         overflow: hidden;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-align: center;
         display: flex;
         flex-direction: column;
-        border: 1px solid #f1f1f1;
+        border: 1px solid #f5f5f5;
         cursor: pointer;
+        max-width: 380px;
+        position: relative;
     }
 
     .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border-color: var(--gold);
+    }
+
+    .product-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--gold), var(--medium-blue));
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .product-card:hover::before {
+        opacity: 1;
     }
 
     .product-image {
         width: 100%;
-        height: 220px;
-        background-color: var(--light-blue);
+        height: 280px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        position: relative;
+    }
+    
+    .product-image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.2) 100%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .product-card:hover .product-image::after {
+        opacity: 1;
     }
     
     .product-image img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.5s ease-in-out;
+        transition: transform 0.6s ease;
     }
     
     .product-card:hover .product-image img {
-        transform: scale(1.05);
+        transform: scale(1.1) rotate(2deg);
+    }
+
+    /* Badge stock */
+    .stock-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        z-index: 2;
+    }
+
+    .stock-badge.out-of-stock {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    /* Badge catégorie */
+    .category-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--dark-blue);
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        z-index: 2;
     }
 
     .product-content {
-        padding: 20px;
+        padding: 25px;
         flex-grow: 1;
         display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: white;
+    }
+
+    .product-category {
+        font-size: 0.8rem;
+        color: var(--gold);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+
+    .product-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--dark-blue);
+        margin-bottom: 10px;
+        font-family: 'Playfair Display', serif;
+        line-height: 1.3;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-description {
+        font-size: 0.95rem;
+        color: var(--text-gray);
+        line-height: 1.6;
+        margin-bottom: 15px;
+        flex-grow: 1;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        border-top: 2px solid #f5f5f5;
+        margin-top: auto;
+    }
+
+    .product-price {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--dark-blue);
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .product-price .currency {
+        font-size: 1.2rem;
+        color: var(--gold);
+        margin-left: 4px;
+    }
+
+    .btn-view-product {
+        background: linear-gradient(135deg, var(--dark-blue) 0%, var(--medium-blue) 100%);
+        color: white;
+        padding: 12px 28px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-view-product:hover {
+        background: white;
+        color: var(--dark-blue);
+        border-color: var(--dark-blue);
+        transform: translateX(5px);
+    }
+
+    .btn-view-product i {
+        transition: transform 0.3s;
+    }
+
+    .btn-view-product:hover i {
+        transform: translateX(5px);
+    }
         flex-direction: column;
         justify-content: space-between;
     }
@@ -352,26 +516,56 @@
                 @forelse($products as $product)
                     <div class="product-card" onclick="window.location.href='{{ route('products.show', $product) }}'">
                         <div class="product-image">
+                            <!-- Badge catégorie -->
+                            @if($product->category)
+                                <div class="category-badge">
+                                    <i class="fas fa-tag"></i> {{ $product->category->name }}
+                                </div>
+                            @endif
+                            
+                            <!-- Badge stock -->
+                            @if($product->in_stock)
+                                <div class="stock-badge">
+                                    <i class="fas fa-check-circle"></i> En stock
+                                </div>
+                            @else
+                                <div class="stock-badge out-of-stock">
+                                    <i class="fas fa-times-circle"></i> Rupture
+                                </div>
+                            @endif
+                            
                             @if($product->image)
                                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                             @else
-                                <img src="https://placehold.co/400x220/1a4f7a/ffffff?text={{ urlencode(Str::limit($product->name, 20)) }}" 
+                                <img src="https://placehold.co/600x400/667eea/ffffff?text={{ urlencode(Str::limit($product->name, 20)) }}" 
                                      alt="{{ $product->name }}">
                             @endif
                         </div>
+                        
                         <div class="product-content">
-                            <div>
-                                <h3>{{ Str::limit($product->name, 40) }}</h3>
+                            <div class="product-category">
                                 @if($product->category)
-                                    <span class="category-tag">{{ $product->category->name }}</span>
+                                    {{ $product->category->name }}
+                                @else
+                                    Produit
                                 @endif
                             </div>
-                            <div>
-                                <div class="product-price">{{ number_format($product->price, 2) }} €</div>
+                            
+                            <h3 class="product-title">{{ Str::limit($product->name, 60) }}</h3>
+                            
+                            @if($product->description)
+                                <p class="product-description">{{ Str::limit($product->description, 120) }}</p>
+                            @endif
+                            
+                            <div class="product-footer">
+                                <div class="product-price">
+                                    {{ number_format($product->price, 2, ',', ' ') }}
+                                    <span class="currency">€</span>
+                                </div>
                                 <a href="{{ route('products.show', $product) }}" 
-                                   class="product-btn" 
+                                   class="btn-view-product" 
                                    onclick="event.stopPropagation();">
-                                    Voir le produit
+                                    Voir <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
